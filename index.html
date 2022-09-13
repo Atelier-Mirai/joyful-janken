@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <!-- head には、文書に関する設定事項を書きます。 -->
+  <head>
+    <!-- 文字コードは utf-8 を使います -->
+    <meta charset="utf-8">
+    <!-- このページのタイトルを示すタグで、ブラウザのタブに表示されます。-->
+    <title>じゃんけんゲーム</title>
+    <!-- iPhoneで見た際にレイアウトを整えるための設定です -->
+    <meta name="viewport" content="width=device-width">
+    <!-- スタイルシートを読み込み、サイトを飾り付けします。-->
+    <link rel="stylesheet" href="janken.css">
+  </head>
+
+  <!-- body タグには、サイトのコンテンツ（内容・出し物）を記述します。
+       全ての要素は このbodyタグの中に書きます。-->
+  <body>
+    <!-- header タグは、サイトの付帯情報やサイト名などの表示に用います -->
+    <header>
+      <!-- h1 タグは、大見出しを表すタグです。他に 中見出しを表す h2 タグや
+           小見出しを表す h3 タグなど h6 タグまであります。 -->
+      <h1>じゃんけんゲーム</h1>
+    </header>
+
+    <!-- mainタグは ページの主題(main)となるコンテンツ(内容・出し物)を記述します。-->
+    <main>
+      <!-- figure タグは 図版(figure)を示すタグです -->
+      <figure>
+        <!-- img タグは、絵(image)を表示するためのタグです -->
+        <img id="computer_hand_type" src="guu.webp">
+      </figure>
+
+      <!-- p は 段落(paragraph)を表す際に用いるタグです -->
+      <p>
+        <!-- br タグを入れると、途中で改行できます -->
+        みんな知っているじゃんけん<br>
+        グー・チョキ・パー どれかを押してね
+      </p>
+
+      <!-- div は汎用タグで、適切なタグがない時に用います。
+           クラス名をcontrol_areaとし、配置を整え易くします -->
+      <div class="control_area">
+        <!-- プレイヤーの手を選ぶ為のボタンです。 -->
+        <div class="player_hand_type">
+          <!-- JavaScriptでの操作用に id属性をguu 値を0 にします。 -->
+          <button id="guu"   value="0"></button>
+          <button id="choki" value="1"></button>
+          <button id="paa"   value="2"></button>
+        </div>
+        <!-- 得点と開始ボタンの領域です -->
+        <div class="score_and_replay">
+          <p class="score">
+            <!-- JavaScriptからの操作用に id属性をwinにします。 -->
+            <span id="win">0</span> 勝
+            <span id="lose">0</span> 敗
+          </p>
+          <!-- button タグを使って、画面に「開始」ボタンを表示します。
+               このボタンにも、id="play" と ID を付与しておきます。 -->
+          <button id="play" class="button">開始</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- article は 記事(article) を表す際に用いるタグです -->
+    <article>
+      <div>
+        <p>
+          じゃんけんは、3種類の指の出し方（グー・パー・チョキ）で三すくみの関係を
+          構成し、出した種類により勝敗を決める遊戯です。古来伝承されてきた虫拳などを
+          もとに、明治期に九州で発明されたと言われています。
+        </p>
+
+        <p>
+          <!-- a はanchor(錨)の意味で、他の文書へのリンクを示すタグです。 -->
+          詳しくは
+          <a href="https://ja.wikipedia.org/wiki/じゃんけん">ウィキペディア</a>
+          を見てね。
+        </p>
+      </div>
+
+      <figure>
+        <!-- figcaption で 図版(figure)に 標題(caption)を設定します -->
+        <figcaption>じゃんけん相関図</figcaption>
+        <img src="janken.webp" alt="じゃんけん説明図">
+
+        <!-- ul は 箇条書き項目(Unorderd List)に用いるタグです-->
+        <ul>
+          <!-- li は リスト項目(List Item)を示す際に用いるタグです -->
+          <li>紙 ＞ 石 ：紙は石を包む</li>
+          <li>鋏 ＞ 紙 ：鋏は紙を切る</li>
+          <li>石 ＞ 鋏 ：石は鋏に克つ</li>
+        </ul>
+      </figure>
+    </article>
+
+    <!-- footer タグは、サイトの付帯情報や著作権表示などに用います。 -->
+    <footer>
+      <div class="container">
+        <p>情報技術を夢の架け橋に</p>
+        <!--「©」は「こぴーらいと」と入力して変換します -->
+        <p>© アトリヱ未來</p>
+      </div>
+    </footer>
+
+    <!-- JavaScriptの読み込み -->
+    <script src="janken.js"></script>
+  </body>
+</html>

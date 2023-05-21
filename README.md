@@ -1,4 +1,5 @@
 # 始めに
+# FIXME
 [計算機の歴史を訪ね プログラミングを楽しむ本](https://techbookfest.org/product/grmpuJGEtYtMB1Le8iXmeQ?productVariantID=6JpDfmTp83G8zfwKnf6WpF) で作成するじゃんけんゲームです。
 
 * 初めて作成する HTML ファイルが index_first.html です。これからコメントを削除し、簡素にしたものが index_first_comment_less.html です。

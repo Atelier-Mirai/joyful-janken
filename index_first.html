@@ -6,6 +6,14 @@
     <meta charset="utf-8">
     <!-- このページのタイトルを示すタグで、ブラウザのタブに表示されます。-->
     <title>じゃんけんゲーム</title>
+    <!-- JavaScriptの読み込み -->
+    <script src="janken00.js" defer></script>
+    <!-- <script src="janken10.js" defer></script> -->
+    <!-- <script src="janken20.js" defer></script> -->
+    <!-- <script src="janken30.js" defer></script> -->
+    <!-- <script src="janken40.js" defer></script> -->
+    <!-- <script src="janken50.js" defer></script> -->
+    <!-- <script src="janken60.js" defer></script> -->
   </head>
 
   <!-- body タグには、サイトのコンテンツ（内容・出し物）を記述します。
@@ -27,11 +35,13 @@
         グーは 0, チョキは 1, パー は 2 を入れてね。
       </p>
 
-      <!-- input タグは、入力枠を作るためのタグで、type="number" と書いて数字用の
-           入力枠にします。利用者が、0, 1, 2 のいずれかの数字を入力することで、
-           グー、チョキ、パー のどの手を出したいのか、意思表示できるようにします。
-           後ほど JavaScriptから扱いやすいよう id="player_hand" とIDを付与します。
-           IDを付与と、多くのHTML要素の中から「一意」に特定の要素を取得できます。
+      <!-- input タグは、入力枠を作るためのタグです。
+           type="number" と書くと、数字用の入力枠になります。
+           利用者が、0, 1, 2 のいずれかの数字を入力し、、
+           グー、チョキ、パー のどの手を出すのか、意思表示できるようにします。
+           また、JavaScriptから扱いやすいよう
+           id="player_hand_type" とID属性を付与します。
+           IDを付与すると、多くのHTML要素の中から「一意」に特定の要素を取得できます。
            value="0" と書いて、枠の中に「0」を表示します。
            つまりプレーヤーの手は グー(0) と言うことです。 -->
       <input type="number" id="player_hand_type" value="0">
@@ -40,23 +50,5 @@
            このボタンにも、id="play" と ID を付与しておきます。 -->
       <button id="play">開始</button>
     </main>
-
-    <!-- footer タグは、サイトの付帯情報や著作権表示などに用います。 -->
-    <footer>
-      <p>
-        情報技術を夢の架け橋に<br>
-        <!--「©」は「こぴーらいと」と入力して変換します -->
-        © アトリヱ未來
-      </p>
-    </footer>
-
-    <!-- JavaScriptの読み込み -->
-    <script src="janken00.js"></script>
-    <!-- <script src="janken10.js"></script> -->
-    <!-- <script src="janken20.js"></script> -->
-    <!-- <script src="janken30.js"></script> -->
-    <!-- <script src="janken40.js"></script> -->
-    <!-- <script src="janken50.js"></script> -->
-    <!-- <script src="janken60.js"></script> -->
   </body>
 </html>

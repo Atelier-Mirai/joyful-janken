@@ -14,6 +14,7 @@ const PAA   = 2 // パー
 const playButton = document.getElementById("play")
 playButton.addEventListener("click", jankenHandler)
 
+// メイン処理
 // player の手を取得
 const inputBox = document.getElementById("player_hand_type")
 let player = Number(inputBox.value)

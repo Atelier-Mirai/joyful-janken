@@ -17,7 +17,7 @@ let computer // コンピュータの手（グー:0、チョキ:1、パー:2 の
 function main(){
   if(!isPause){ // 停止中でなければ
     computer = rand(0, 2)
-    document.getElementById('computer_hand_type').src =
+    document.getElementById("computer_hand_type").src =
             ["guu.webp", "choki.webp", "paa.webp"][computer]
   }
   setTimeout(main, 1000 / FPS)
@@ -28,14 +28,14 @@ function initButton() {
   const guu_button   = document.getElementById("guu")
   const choki_button = document.getElementById("choki")
   const paa_button   = document.getElementById("paa")
-  guu_button.addEventListener('click', jankenHandler)
-  choki_button.addEventListener('click', jankenHandler)
-  paa_button.addEventListener('click', jankenHandler)
+  guu_button.addEventListener("click", jankenHandler)
+  choki_button.addEventListener("click", jankenHandler)
+  paa_button.addEventListener("click", jankenHandler)
 
   // playボタンがクリックされた時には、resume関数を実行して、
   // じゃんけんの切替アニメが再開(resume)されるようにする。
   const play_button  = document.getElementById("play")
-  play_button.addEventListener('click', resume)
+  play_button.addEventListener("click", resume)
 }
 
 // じゃんけんの勝敗を取り扱う関数
@@ -48,18 +48,18 @@ function jankenHandler(event) {
   pause()
 
   // プレイヤーの手の取得
-  const player   = parseInt(event.target.value)
+  const player   = Number(event.target.value)
   // 勝敗結果の取得
   const result = judge(player, computer)
   // 勝敗に応じ、メッセージ表示＆勝敗更新
   if (result === DRAW) {
-    alert('引き分けです!')
+    alert("引き分けです!")
   } else if (result === LOSE) {
-    alert('あなたの負けです!')
+    alert("あなたの負けです!")
     // 敗数を一つ増やす
     updateScore(LOSE)
   } else {
-    alert('あなたの勝ちです!')
+    alert("あなたの勝ちです!")
     // 勝数を一つ増やす
     updateScore(WIN)
   }
@@ -76,9 +76,9 @@ function updateScore(result) {
   const lose = document.getElementById("lose")
 
   if (result === WIN) { // 勝ちの場合
-    win.innerText = parseInt(win.textContent) + 1
+    win.innerText = Number(win.textContent) + 1
   } else if (result === LOSE) {
-    lose.innerText = parseInt(lose.textContent) + 1
+    lose.innerText = Number(lose.textContent) + 1
   }
 }
 

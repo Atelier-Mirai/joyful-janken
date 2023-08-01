@@ -56,69 +56,68 @@ header {                      /* header 要素を対象に */
   grid-row: head;             /* 行の配置は先に命名したhead線の下に */
   justify-self: center;       /* 左右中央揃えで配置する */
   align-self: center;         /* 上下中央揃えで配置する */
-}
 
-header h1 {                   /* header 内の h1 (大見出しの指定) */
-  font-size: 40px;            /* 書体の大きさは40px */
-  color: var(--kurohairo);    /* 文字色を黒羽色にする */
-  text-shadow: 3px 4px 5px var(--nibiiro); /* 鈍色の影を付ける */
-  text-align: center;         /* 文字は中央揃えにする */
+  & h1 {                   /* header 内の h1 (大見出しの指定) */
+    font-size: 40px;            /* 書体の大きさは40px */
+    color: var(--kurohairo);    /* 文字色を黒羽色にする */
+    text-shadow: 3px 4px 5px var(--nibiiro); /* 鈍色の影を付ける */
+    text-align: center;         /* 文字は中央揃えにする */
+  }
 }
 
 /* メイン(サイト主要機能部)
 ---------------------------------------------------------------------*/
 main {                        /* main 要素を対象に */
   grid-row: main;             /* 行の配置は先に命名したmain線の下に */
+
+  & figure img {             /* メインの画像(=コンピュータの手)を対象 */
+    max-height: 40vh;
+    aspect-ratio: 1 / 1;
+  }
+
+  & p {                      /* じゃんけんの説明文 */
+    text-align: center;         /* 文字は中央揃えにする */
+    margin-bottom: 20px;        /* 下側に少し余白を設ける */
+  }
+
+  .control_area {          /* control_areaクラスを対象に */
+    display: grid;              /* 内部要素をグリッドで配置 */
+    grid-template-columns: repeat(6, 1fr); /* column(列) を六列 用意する */
+    grid-template-rows: 2fr 1fr;/* row(行) は 二行 用意する */
+    gap: 20px;                  /* 間隔を 20px 開ける */
+    justify-items: center;      /* グリッド内の要素を水平方向に中央揃えする */
+    align-items: center;        /* グリッド内の要素を垂直方向に中央揃えする */
+
+    /* button要素 を対象に */
+    & button {
+      aspect-ratio: 1 / 1;              /* 横縦比は１対１に */
+      width: 100%;                      /* 幅100%で表示 */
+      background-size: contain;         /* 背景画像が全て含むようにする */
+      background-repeat: no-repeat;     /* 背景画像を繰り返さないようにする */
+      margin: 10px 0;                   /* 上下に10px 左右に0px の余白 */
+      background-color: var(--amairo);  /* 背景色は 天色 */
+      color: white;                     /* 文字の色は白*/
+      font-size: 24px;                  /* 書体の大きさは24px */
+      border-radius: 15px;              /* 角は 半径(radius) 15pxで丸くする */
+      cursor: pointer;                  /* カーソルの形状を手のマークに */
+    }
+
+    /* ボタンの配置指定 */
+    /* 列は、左から一本目の線から三本目の線の間で、行は一行目に配置する */
+    #guu   { grid-column: 1 / 3; grid-row: 1; }
+    #choki { grid-column: 3 / 5; grid-row: 1; }
+    #paa   { grid-column: 5 / 7; grid-row: 1; }
+
+    .score { grid-column: 1 / 4; grid-row: 2;
+             font-size: 24px; } /* 書体の大きさを指定する */
+    #play  { grid-column: 4 / 7; grid-row: 2;
+             aspect-ratio: 3 / 1; } /* 横縦比を横３対縦１にする */
+
+    /* グー、チョキ、パー 各ボタンの背景色と背景画像を指定 */
+    #guu   { background-color: var(--utsushiiro);
+             background-image: url('player_guu.webp'); }
+    #choki { background-color: var(--nanohanairo);
+             background-image: url('player_choki.webp'); }
+    #paa   { background-color: var(--kyohiiro);
+             background-image: url('player_paa.webp'); }
 }
-
-main figure img {             /* メインの画像(=コンピュータの手)を対象 */
-  max-height: 40vh;
-  aspect-ratio: 1 / 1;
-}
-
-main p {                      /* じゃんけんの説明文 */
-  text-align: center;         /* 文字は中央揃えにする */
-  margin-bottom: 20px;        /* 下側に少し余白を設ける */
-}
-
-main .control_area {          /* control_areaクラスを対象に */
-  display: grid;              /* 内部要素をグリッドで配置 */
-  grid-template-columns: repeat(6, 1fr); /* column(列) を六列 用意する */
-  grid-template-rows: 2fr 1fr;/* row(行) は 二行 用意する */
-  gap: 20px;                  /* 間隔を 20px 開ける */
-  justify-items: center;      /* グリッド内の要素を水平方向に中央揃えする */
-  align-items: center;        /* グリッド内の要素を垂直方向に中央揃えする */
-}
-
-/* button要素 を対象に */
-main .control_area button {
-  aspect-ratio: 1 / 1;              /* 横縦比は１対１に */
-  width: 100%;                      /* 幅100%で表示 */
-  background-size: contain;         /* 背景画像が全て含むようにする */
-  background-repeat: no-repeat;     /* 背景画像を繰り返さないようにする */
-  margin: 10px 0;                   /* 上下に10px 左右に0px の余白 */
-  background-color: var(--amairo);  /* 背景色は 天色 */
-  color: white;                     /* 文字の色は白*/
-  font-size: 24px;                  /* 書体の大きさは24px */
-  border-radius: 15px;              /* 角は 半径(radius) 15pxで丸くする */
-  cursor: pointer;                  /* カーソルの形状を手のマークに */
-}
-
-/* ボタンの配置指定 */
-/* 列は、左から一本目の線から三本目の線の間で、行は一行目に配置する */
-main .control_area #guu   { grid-column: 1 / 3; grid-row: 1; }
-main .control_area #choki { grid-column: 3 / 5; grid-row: 1; }
-main .control_area #paa   { grid-column: 5 / 7; grid-row: 1; }
-
-main .control_area .score { grid-column: 1 / 4; grid-row: 2;
-                            font-size: 24px; } /* 書体の大きさを指定する */
-main .control_area #play  { grid-column: 4 / 7; grid-row: 2;
-                            aspect-ratio: 3 / 1; } /* 横縦比を横３対縦１にする */
-
-/* グー、チョキ、パー 各ボタンの背景色と背景画像を指定 */
-main .control_area #guu   { background-color: var(--sanaeiro);
-                            background-image: url('player_guu.webp'); }
-main .control_area #choki { background-color: var(--nanohanairo);
-                            background-image: url('player_choki.webp'); }
-main .control_area #paa   { background-color: var(--kyohiiro);
-                            background-image: url('player_paa.webp'); }

@@ -48,7 +48,7 @@ function jankenHandler(event) {
   pause()
 
   // プレイヤーの手の取得
-  const player   = Number(event.target.value)
+  const player = Number(event.target.value)
   // 勝敗結果の取得
   const result = judge(player, computer)
   // 勝敗に応じ、メッセージ表示＆勝敗更新
@@ -83,18 +83,18 @@ function updateScore(result) {
 }
 
 // 切替アニメ停止処理
-function pause(){
+function pause() {
   isPause = true
 }
 
 // 切替アニメ再開処理
-function resume(){
+function resume() {
   isPause = false
 }
 
 // 乱数を返す関数
 // rand(0, 2)と呼び出せば、0, 1, 2 と グーチョキパー の乱数を返す
-function rand(min, max){
+function rand(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 

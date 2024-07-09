@@ -3,7 +3,7 @@
   // https://jam25.jp/javascript/about-pwa/
   // https://laboradian.com/create-offline-site-using-sw/
 =========================================================================*/
-const CACHE_DYNAMIC_VERSION = "dynamic-v1"
+const CACHE_NAME = "janken-v1"
 self.addEventListener("fetch", (event) => {
   console.log("[Service Worker] Fetching something ...")
   event.respondWith(
@@ -13,9 +13,10 @@ self.addEventListener("fetch", (event) => {
       if (response) {
         return response
       } else {
-        // キャッシュがなければリクエストを投げて、レスポンスをキャッシュに入れる
+        // キャッシュがなければリクエストを投げて、
+        // レスポンスをキャッシュに入れる
         return fetch(event.request).then((res) => {
-          return caches.open(CACHE_DYNAMIC_VERSION).then((cache) => {
+          return caches.open(CACHE_NAME).then((cache) => {
             // 最後に res を返せるように、ここでは clone() する必要がある
             cache.put(event.request.url, res.clone())
             return res
@@ -24,5 +25,6 @@ self.addEventListener("fetch", (event) => {
           // エラーが発生しても何もしない
         })
       }
-    }))
+    })
+  )
 })

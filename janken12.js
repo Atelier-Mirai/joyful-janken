@@ -21,7 +21,8 @@ const resume = () => {
   isPause = false
 }
 
-// 乱数関数 rand(0, 2)と呼ぶと 0, 1, 2 と グーチョキパー の乱数を返す
+// 乱数関数
+// rand(0, 2)と呼ぶと 0, 1, 2 と グーチョキパー の乱数を返す
 const rand = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
@@ -30,7 +31,17 @@ const rand = (min, max) => {
 const shuffleHand = () => {
   if(!isPause){ // 停止中でなければ
 
-    computer = rand(0, 2)
+    // 現在の手(current_hand)を保持
+    let current_hand = computer
+    // 次の手(next_hand)の候補を乱数で決定
+    next_hand = rand(0, 2) // グー:0, チョキ:1, パー:2
+    // 次の手の候補と現在の手が同じなら、
+    // 違う手になるまで繰り返す
+    while (next_hand === current_hand) {
+      next_hand = rand(0, 2)
+    }
+    // 乱数で選ばれた次の手を、コンピュータの手として設定する
+    computer = next_hand
     // 設定できているか、確認する。
     console.log(`computer: ${computer}`)
 
@@ -49,8 +60,27 @@ const judge = (player, computer) => {
   return (player - computer + 3) % 3
 }
 
+// 勝敗更新処理
+const updateScore = (result) => {
+  // HTML の勝ち表示要素、敗け表示要素を取得します。
+  const win  = document.querySelector("#win")
+  const lose = document.querySelector("#lose")
+
+  // 勝ちの場合
+  if (result === WIN) {
+    // 勝数を一つ増やす
+    win.textContent = Number(win.textContent) + 1
+  } else if (result === LOSE) {
+    lose.textContent = Number(lose.textContent) + 1
+  }
+}
+
 // じゃんけんの勝ち負けの結果を表示する関数
 const jankenHandler = (event) => {
+  // 「開始」ボタンが押された際に、ボタンの表示を「もう一度」に更新する
+  const playButton = document.querySelector("#play")
+  playButton.textContent = "もう一度"
+
   // 切替アニメ停止処理実行
   pause()
 
@@ -69,8 +99,12 @@ const jankenHandler = (event) => {
     alert("引き分けです")
   } else if (result === LOSE) {
     alert("あなたの負けです")
+    // 敗数を一つ増やす
+    updateScore(LOSE)
   } else {
     alert("あなたの勝ちです")
+    // 勝数を一つ増やす
+    updateScore(WIN)
   }
 }
 
@@ -91,7 +125,3 @@ playButton.addEventListener("click", resume)
 
 // コンピュータの手を変更する処理を呼び出す
 shuffleHand()
-
-// 開始ボタンを押すと、アニメーション開始、
-// グーチョキパーボタンを押すとアニメーションが止まるようになりました
-// かくかくして見えます。必ず違う手を出すようにしましょう

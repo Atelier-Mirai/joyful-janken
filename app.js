@@ -7,9 +7,9 @@ if ("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js")
     .then((registration) => {
       // 登録成功
-      console.log(`Service Worker の登録に成功しました。スコープ: ${registration.scope}`)
+      // console.log(`Service Worker の登録に成功しました。スコープ: ${registration.scope}`)
     }).catch((error) => {
       // 登録失敗
-      console.log(`Service Worker の登録に失敗しました。${error}`)
+      // console.log(`Service Worker の登録に失敗しました。${error}`)
     })
 }

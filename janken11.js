@@ -21,7 +21,8 @@ const resume = () => {
   isPause = false
 }
 
-// 乱数関数 rand(0, 2)と呼ぶと 0, 1, 2 と グーチョキパー の乱数を返す
+// 乱数関数
+// rand(0, 2)と呼ぶと 0, 1, 2 と グーチョキパー の乱数を返す
 const rand = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
@@ -30,7 +31,17 @@ const rand = (min, max) => {
 const shuffleHand = () => {
   if(!isPause){ // 停止中でなければ
 
-    computer = rand(0, 2)
+    // 現在の手(current_hand)を保持
+    let current_hand = computer
+    // 次の手(next_hand)の候補を乱数で決定
+    next_hand = rand(0, 2) // グー:0, チョキ:1, パー:2
+    // 次の手の候補と現在の手が同じなら、
+    // 違う手になるまで繰り返す
+    while (next_hand === current_hand) {
+      next_hand = rand(0, 2)
+    }
+    // 乱数で選ばれた次の手を、コンピュータの手として設定する
+    computer = next_hand
     // 設定できているか、確認する。
     console.log(`computer: ${computer}`)
 
@@ -92,6 +103,5 @@ playButton.addEventListener("click", resume)
 // コンピュータの手を変更する処理を呼び出す
 shuffleHand()
 
-// 開始ボタンを押すと、アニメーション開始、
-// グーチョキパーボタンを押すとアニメーションが止まるようになりました
-// かくかくして見えます。必ず違う手を出すようにしましょう
+// 必ず違う手を出すように成りました。
+// 次は、勝敗結果を更新しましょう

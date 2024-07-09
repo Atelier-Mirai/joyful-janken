@@ -1,14 +1,16 @@
 # 始めに
-[ウェブアプリ簡単入門 - じゃんけんゲームを創ろう](https://techbookfest.org/product/3NGP5fb8q9KC2j2myzkSdr?productVariantID=cviwhdVptADjHJi1JuSnJJ) で作成するじゃんけんゲームです。
+[初めてのウェブアプリ入門](https://techbookfest.org/product/3NGP5fb8q9KC2j2myzkSdr?productVariantID=cviwhdVptADjHJi1JuSnJJ) で作成するじゃんけんゲームです。
 
-* 初めて作成する HTML ファイルが index_first.html です。これにコメントを付けたものが index_first_comment.html です。
+* 作成する HTML ファイルは index.html です。
 
-* じゃんけんゲームとして機能するよう JavaScript を少しずつ作り上げていきます。janken00.js から始まり janken60.js に至って一応の完成を見ます。
+* 作成する CSS ファイルは janken.css です。
 
-* 見た目と使い勝手の向上のために、じゃんけんの絵を表示するようにしたのが index.html です。そして、見た目を司る janken.css と janken.js を作成し、じゃんけんゲーム完成です。
+* じゃんけんゲームとして機能するよう JavaScript を少しずつ作り上げていきます。janken01.js から始まり janken12.js で完成します。(janken12.jsとjanken.jsは同じものです。)
+
+* iPhone アプリとして楽しめるよう、PWA (Progressive Web Apps) にしています。(PWAの解説は行っておりませんが、ご興味のある方はお調べください。)
 
 ## じゃんけんゲームの公開
 [じゃんけんゲーム](https://joyful-janken.netlify.app)にて、公開しています。
 
 ## 注意点
-CSS Nesting に対応した最新のブラウザで閲覧してください。未対応の古いブラウザでは配置や配色など反映されない場合がございます。
+最新のブラウザで閲覧してください。古いブラウザでは配置や配色、動作など差し支えがある場合がございます。

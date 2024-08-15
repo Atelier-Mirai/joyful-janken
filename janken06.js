@@ -1,4 +1,11 @@
-// 乱数関数 rand(0, 2)と呼ぶと 0, 1, 2 と グーチョキパー の乱数を返す
+// 定数宣言
+// プログラム内で共通して使う定数を宣言する。
+const GUU   = 0 // グー
+const CHOKI = 1 // チョキ
+const PAA   = 2 // パー
+
+// 乱数関数
+// rand(0, 2)と呼ぶと 0, 1, 2 と グーチョキパー の乱数を返す
 const rand = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
@@ -15,42 +22,43 @@ const jankenHandler = (event) => {
   // 取得できているか、確認する。
   console.log(`player:   ${player}`)
 
-  if (player === 0) {
+  // 勝敗に応じ、メッセージ表示
+  if (player === GUU) {
     // === は「厳密等価演算子」で、「等しい」ことを調べます。
     // プレイヤーがグーの時なら
-    if (computer === 0) {
+    if (computer === GUU) {
       // コンピュータがグーを出した場合、
-      alert("あいこです")
-    } else if (computer === 1) {
+      alert("あいこです!")
+    } else if (computer === CHOKI) {
       // コンピュータがチョキを出した場合
-      alert("あなたの勝ちです")
+      alert("あなたの勝ちです!")
     } else {
       // コンピュータがパーを出した場合
-      alert("あなたの負けです")
+      alert("あなたの負けです!")
     }
-  } else if (player === 1) {
+  } else if (player === CHOKI) {
     // プレイヤーがチョキの時に、
-    if (computer === 0) {
+    if (computer === GUU) {
       // コンピュータがグーを出した場合
-      alert("あなたの負けです")
-    } else if (computer === 1) {
+      alert("あなたの負けです!")
+    } else if (computer === CHOKI) {
       // コンピュータがチョキを出した場合
-      alert("あいこです")
+      alert("あいこです!")
     } else {
       // コンピュータがパーを出した場合
-      alert("あなたの勝ちです")
+      alert("あなたの勝ちです!")
     }
   } else {
     // プレイヤーがパーの時に、
-    if (computer === 0) {
+    if (computer === GUU) {
       // コンピュータがグーを出した場合
-      alert("あなたの勝ちです")
-    } else if (computer === 1) {
+      alert("あなたの勝ちです!")
+    } else if (computer === CHOKI) {
       // コンピュータがチョキを出した場合
-      alert("あなたの負けです")
+      alert("あなたの負けです!")
     } else {
       // コンピュータがパーを出した場合
-      alert("あいこです")
+      alert("あいこです!")
     }
   }
 }

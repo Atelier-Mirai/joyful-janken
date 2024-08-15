@@ -3,7 +3,7 @@ const jankenHandler = (event) => {
   // 繰り返し処理
   let i = 0
   while (i < 3) {
-    alert("あなたの勝ちです")
+    alert("あなたの勝ちです!")
     i = i + 1
   }
 

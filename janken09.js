@@ -1,6 +1,5 @@
 // 定数宣言
 // プログラム内で共通して使う定数を宣言する。
-// 慣習的に定数名は全て大文字で書かれる。
 const DRAW  = 0 // あいこ
 const LOSE  = 1 // 負け
 const WIN   = 2 // 勝ち
@@ -8,9 +7,10 @@ const WIN   = 2 // 勝ち
 const FPS   = 4 // 一秒間あたり、4コマ表示する
 
 // グローバル変数宣言
-let computer       // コンピュータの手(グー:0, チョキ:1, パー:2)
+let computer    // コンピュータの手(グー:0, チョキ:1, パー:2)
 
-// 乱数関数 rand(0, 2)と呼ぶと 0, 1, 2 と グーチョキパー の乱数を返す
+// 乱数関数
+// rand(0, 2)と呼ぶと 0, 1, 2 と グーチョキパー の乱数を返す
 const rand = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
@@ -42,18 +42,18 @@ const jankenHandler = (event) => {
   // 取得できているか、確認する。
   console.log(`player:   ${player}`)
 
-  // judge関数に、プレイヤーとコンピュータの手を渡して、
-  // 勝敗(相子なら0 , 負けなら1, 勝ちなら2)を得ます。
+  // judge関数により、勝敗判定結果を得る。
   const result = judge(player, computer)
   // 判定できているか、確認する。
   console.log(`result:   ${result}`)
 
+  // 勝敗に応じ、メッセージ表示
   if (result === DRAW) {
-    alert("引き分けです")
+    alert("あいこです!")
   } else if (result === LOSE) {
-    alert("あなたの負けです")
+    alert("あなたの負けです!")
   } else {
-    alert("あなたの勝ちです")
+    alert("あなたの勝ちです!")
   }
 }
 
@@ -69,6 +69,3 @@ paaButton.addEventListener("click", jankenHandler)
 
 // コンピュータの手を変更する処理を呼び出す
 shuffleHand()
-
-// 手のアニメーションに成りました。
-// 次は、止まるようにしましょう

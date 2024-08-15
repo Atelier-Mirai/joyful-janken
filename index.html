@@ -33,7 +33,7 @@
     <!-- スタイルシートを読み込み、サイトを飾り付けします。-->
     <link rel="stylesheet" href="janken.css">
     <!-- JavaScriptを読み込み、じゃんけんゲームを動かします。 -->
-    <script src="janken.js" defer></script>
+    <script src="janken10.js" defer></script>
   </head>
 
   <!-- body タグには、サイトのコンテンツ（内容・出し物）を記述します。
@@ -62,17 +62,19 @@
 
     <!-- プレイヤーの手を選ぶ為のボタンです。 -->
     <!-- button タグを使って、画面に「グーチョキパー」のボタンを表示します。
-         JavaScriptでの操作用に id属性をguu 値を0 にします。 -->
+         JavaScriptで操作しやすいようID属性をguuに、値を0にします。 -->
     <button id="guu"   value="0" title="グー"></button>
     <button id="choki" value="1" title="チョキ"></button>
     <button id="paa"   value="2" title="パー"></button>
-    <!-- 得点領域です。 -->
+
+    <!-- 得点表示です。 -->
     <!-- 複数のpタグがあるので、class属性をscoreとして、区別します -->
     <p class="score">
       <!-- JavaScriptから操作しやすいよう、id属性をwinとloseにします。 -->
       <span id="win">0</span> 勝
       <span id="lose">0</span> 敗
     </p>
+
     <!-- button タグを使って、画面に「開始」ボタンを表示します。
          このボタンにも、id="play" と ID を付与しておきます。 -->
     <button id="play">開始</button>

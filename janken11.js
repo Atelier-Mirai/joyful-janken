@@ -1,6 +1,5 @@
 // 定数宣言
 // プログラム内で共通して使う定数を宣言する。
-// 慣習的に定数名は全て大文字で書かれる。
 const DRAW  = 0 // あいこ
 const LOSE  = 1 // 負け
 const WIN   = 2 // 勝ち
@@ -35,8 +34,7 @@ const shuffleHand = () => {
     let current_hand = computer
     // 次の手(next_hand)の候補を乱数で決定
     next_hand = rand(0, 2) // グー:0, チョキ:1, パー:2
-    // 次の手の候補と現在の手が同じなら、
-    // 違う手になるまで繰り返す
+    // 次の手の候補と現在の手が同じなら、違う手になるまで繰り返す
     while (next_hand === current_hand) {
       next_hand = rand(0, 2)
     }
@@ -70,18 +68,18 @@ const jankenHandler = (event) => {
   // 取得できているか、確認する。
   console.log(`player:   ${player}`)
 
-  // judge関数に、プレイヤーとコンピュータの手を渡して、
-  // 勝敗(相子なら0 , 負けなら1, 勝ちなら2)を得ます。
+  // judge関数により、勝敗判定結果を得る。
   const result = judge(player, computer)
   // 判定できているか、確認する。
   console.log(`result:   ${result}`)
 
+  // 勝敗に応じ、メッセージ表示
   if (result === DRAW) {
-    alert("引き分けです")
+    alert("あいこです!")
   } else if (result === LOSE) {
-    alert("あなたの負けです")
+    alert("あなたの負けです!")
   } else {
-    alert("あなたの勝ちです")
+    alert("あなたの勝ちです!")
   }
 }
 
@@ -102,6 +100,3 @@ playButton.addEventListener("click", resume)
 
 // コンピュータの手を変更する処理を呼び出す
 shuffleHand()
-
-// 必ず違う手を出すように成りました。
-// 次は、勝敗結果を更新しましょう

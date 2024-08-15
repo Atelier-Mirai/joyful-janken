@@ -2,7 +2,7 @@
   じゃんけんゲームの為のスタイルシート
 =====================================================================*/
 
-/* 和の色 (CSSカスタムプロパティ)を使えるようにする
+/* CSSカスタムプロパティを定義して、和の色を使えるようにする
 ---------------------------------------------------------------------*/
 :root {
   --kyohiiro:          #ff251e; /* 京緋色(きょうひいろ) */
@@ -32,6 +32,7 @@
 ---------------------------------------------------------------------*/
 body {            /* 全ての要素の親であるbody要素を対象に */
   display: grid;  /* グリッド(格子)を使ったレイアウトを行う */
+
   /* 一行目はtitleなど 五行六列の各領域に名前を付ける
      また、行の高さ、列の幅も同時に設定する */
   grid-template:
@@ -41,7 +42,8 @@ body {            /* 全ての要素の親であるbody要素を対象に */
     "guu      guu      choki    choki    paa      paa     " auto
     "score    score    score    play     play     play    " auto
     / 1fr     1fr      1fr      1fr      1fr      1fr;
-  gap: 10px;               /* 行と列の間にgap(隙間)を15px入れる */
+
+  gap: 10px;               /* 行と列の間にgap(隙間)を10px入れる */
 
   inline-size: 100vw;      /* 幅を画面の幅にする */
   max-inline-size: 430px;  /* 最大幅を iPhone 15 Pro Max の横幅にする */
@@ -73,7 +75,7 @@ header {                      /* header 要素を対象に */
 figure {
   grid-area: computer;  /* computer領域に配置する */
   img {
-    inline-size: 100%;  /* 幅を尾や要素の幅にする */
+    inline-size: 100%;  /* 幅を親要素の幅にする */
   }
 }
 
@@ -98,24 +100,26 @@ button {
 #guu   {
   grid-area: guu;                                  /* guu領域に配置する */
   background-color: var(--amairo);                 /* 背景色は天色にする */
-  background-image: url('images/player_guu.webp'); /* 背景画像はグーにする */
+  background-image: url("images/player_guu.webp"); /* 背景画像はグーにする */
 }
 #choki {
   grid-area: choki;
   background-color: var(--nanohanairo);
-  background-image: url('images/player_choki.webp');
+  background-image: url("images/player_choki.webp");
 }
 #paa   {
   grid-area: paa;
   background-color: var(--kyohiiro);
-  background-image: url('images/player_paa.webp');
+  background-image: url("images/player_paa.webp");
 }
 
-/* スコアボタンと開始ボタンの設定 */
+/* 得点表示の設定 */
 .score {
   grid-area: score;  /* score領域に配置する */
   font-size: 24px;   /* 書体の大きさは24pxにする */
 }
+
+/* 開始ボタンの設定 */
 #play  {
   grid-area: play;                      /* play領域に配置する */
   background-color: var(--utsushiiro);  /* 背景色は 移色にする */

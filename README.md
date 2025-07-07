@@ -1,16 +1,106 @@
-# 始めに
-[初めてのウェブアプリ入門](https://techbookfest.org/product/3NGP5fb8q9KC2j2myzkSdr?productVariantID=cviwhdVptADjHJi1JuSnJJ) で作成するじゃんけんゲームです。
+# じゃんけんゲーム
 
-* 作成する HTML ファイルは index.html です。
+モダンなWeb技術を使用したインタラクティブなじゃんけんゲームです。レスポンシブデザインを採用しており、スマートフォンからデスクトップまで幅広いデバイスで快適にプレイできます。
 
-* 作成する CSS ファイルは janken.css です。
+## このプロジェクトについて
 
-* じゃんけんゲームとして機能するよう JavaScript を少しずつ作り上げていきます。janken01.js から始まり janken12.js で完成します。(janken12.jsとjanken.jsは同じものです。)
+このプロジェクトは、Web開発を学び始めた方のための学習用リソースです。以下のような特徴があります：
 
-* iPhone アプリとして楽しめるよう、PWA (Progressive Web Apps) にしています。(PWAの解説は行っておりませんが、ご興味のある方はお調べください。)
+- シンプルで理解しやすいコードベース
+- モダンなWeb開発のベストプラクティスを採用
+- コード内に詳細なコメントを記載
+- 段階的に機能を追加できる構成
 
-## じゃんけんゲームの公開
-[じゃんけんゲーム](https://joyful-janken.netlify.app)にて、公開しています。
+### 学習のポイント
 
-## 注意点
-最新のブラウザで閲覧してください。古いブラウザでは配置や配色、動作など差し支えがある場合がございます。
+1. **HTML/CSSの基本**
+   - セマンティックHTML5の使用
+   - CSS Gridを使ったレイアウト
+   - レスポンシブデザインの実装
+   - CSS変数を使ったテーマ管理
+
+2. **JavaScriptの基本**
+   - クラスを使った実装
+   - イベント駆動型プログラミング
+   - アニメーションの実装
+   - ローカルストレージの活用
+
+3. **モダンな開発手法**
+   - モジュール化されたコード構造
+   - サービスワーカーを使ったオフライン機能
+   - プログレッシブウェブアプリ（PWA）の基礎
+
+## 主な機能
+
+- シンプルで直感的なUI/UX
+- スコアの自動記録（ブラウザのローカルストレージに保存）
+- アニメーション効果付きのゲームプレイ
+- ダークモード対応
+- PWA（Progressive Web App）対応でホーム画面に追加可能
+
+## ファイル構成
+
+```
+.
+├── index.html      # メインのHTMLファイル
+├── styles.css      # スタイルシート（CSS Grid/Flexbox使用）
+├── game.js         # ゲームのメインロジック
+├── app.js          # サービスワーカーの登録
+└── sw.js           # サービスワーカー（オフライン機能用）
+```
+
+## 技術スタック
+
+- **HTML5** - セマンティックなマークアップ
+- **CSS3** - モダンレイアウト（Grid/Flexbox）
+- **JavaScript (ES6+)** - インタラクティブな機能実装
+- **PWA** - オフライン対応とホーム画面追加機能
+
+## ブラウザサポート
+
+最新バージョンの主要なモダンブラウザで動作確認済み：
+- Google Chrome
+- Mozilla Firefox
+- Safari
+- Microsoft Edge
+
+## ライセンス
+
+このプロジェクトはオープンソースです。詳細は[ライセンスファイル](LICENSE)をご覧ください。
+
+## デモ
+
+[デモをプレイする](https://joyful-janken.netlify.app)
+
+## 開発者
+
+[アトリヱ未來](https://github.com/atruefuture)
+
+## 貢献方法
+
+バグレポートやプルリクエストは歓迎します。
+
+1. リポジトリをフォーク
+2. フィーチャーブランチを作成 (`git checkout -b feature/AmazingFeature`)
+3. 変更をコミット (`git commit -m 'Add some AmazingFeature'`)
+4. ブランチにプッシュ (`git push origin feature/AmazingFeature`)
+5. プルリクエストを開く
+
+## 使用素材
+
+### BGM
+- **夏休みの探検**  
+  [甘茶の音楽工房](https://amachamusic.chagasi.com/)より
+
+### 効果音
+- **勝利時**：「やったーー！」  
+  声優: 音枝優日  
+  [効果音ラボ](https://soundeffect-lab.info/)より
+
+- **敗北時**：「負けました...」  
+  声優: 藤堂れんげ  
+  [効果音ラボ](https://soundeffect-lab.info/)より
+
+- **あいこ時**：「まだまだ！」  
+  声優: IC  
+  [効果音ラボ](https://soundeffect-lab.info/)より

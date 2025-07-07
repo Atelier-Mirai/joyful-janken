@@ -1,82 +1,124 @@
-<!-- DOCTYPE(ドクタイプ)宣言。歴史的経緯から一番先頭に書きます。-->
+<!-- HTMLの文書であることを宣言 -->
 <!DOCTYPE html>
-<!-- HTMLの始まり。lang="ja"と書き、日本語のサイトであることを示します -->
+<!-- 文書の言語を日本語に設定 -->
 <html lang="ja">
-  <!-- head には、文書に関する設定事項を書きます。 -->
-  <head>
-    <!-- 文字コードは utf-8 を使います -->
-    <meta charset="utf-8">
-    <!-- ビューポート(表示領域)を設定します。 -->
-    <!-- これにより、iPhoneでも綺麗に見られるようになります。 -->
-    <meta name="viewport" content="width=device-width">
-    <!-- このページのタイトルを示すタグです。ブラウザのタブに表示されます。-->
-    <title>じゃんけんゲーム</title>
-    <!-- ファビコンとアップルタッチアイコンの指定 -->
-    <link rel="icon"
-          href="images/favicon.ico"
-          type="image/ico">
-    <link rel="apple-touch-icon"
-          href="images/apple-touch-icon-180x180.png"
-          type="image/png"
-          sizes="180x180">
-    <!-- このウェブサイトの説明（検索エンジンに表示されます） -->
-    <meta name="description" content="初めてのウェブアプリ入門 - HTMLとCSSとJavaScriptで作るじゃんけんゲームです。">
+<!-- ヘッダー部分：ページの見た目や動作に関する設定 -->
+<head>
+  <!-- 文字コードをUTF-8に設定（日本語を正しく表示するために重要） -->
+  <meta charset="UTF-8">
+  <!-- スマートフォンなどの画面幅に合わせて表示を最適化 -->
+  <meta name="viewport" content="width=device-width">
+  <!-- ブラウザのタブに表示されるタイトル -->
+  <title>じゃんけんゲーム</title>
+  <!-- 検索エンジンに表示される説明文 -->
+  <meta name="description" content="モダンなUI/UXで楽しむじゃんけんゲーム。HTML、CSS、JavaScriptで実装。">
+  
+  <!-- ファビコン（ブラウザのタブに表示されるアイコン） -->
+  <link rel="icon" href="images/favicon.ico" type="image/ico">
+  <!-- iOSデバイスでホーム画面に追加したときのアイコン -->
+  <link rel="apple-touch-icon" href="images/apple-touch-icon-180x180.png" type="image/png" sizes="180x180">
+  
+  <!-- プログレッシブウェブアプリ（PWA）の設定 -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#f0f4f8">
+  <meta name="theme-color" content="#f0f4f8">
+  <meta name="apple-mobile-web-app-title" content="じゃんけん">
+  <link rel="manifest" href="/manifest.json">
+  
+  <!-- Font Awesome（アイコンフォントライブラリ）の読み込み -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  
+  <!-- Google Fonts（日本語フォント）の読み込み -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- カスタムCSSファイルの読み込み -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- JavaScriptファイルの読み込み -->
+  <!-- type="module"でモダンなJavaScriptの機能を使用可能に -->
+  <!-- deferでHTMLの読み込み後にスクリプトを実行 -->
+  <script src="app.js" type="module" defer></script>
+  <script src="game.js" type="module" defer></script>
+</head>
 
-    <!-- PWA (Progressive Web Apps) にするための設定 -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#fef4f4">
-    <meta name="theme-color" content="#fef4f4">
-    <meta name="apple-mobile-web-app-title" content="じゃんけん">
-    <link rel="manifest" href="/manifest.json">
-    <script src="/app.js" defer></script>
-
-    <!-- スタイルシートを読み込み、サイトを飾り付けします。-->
-    <link rel="stylesheet" href="janken.css">
-    <!-- JavaScriptを読み込み、じゃんけんゲームを動かします。 -->
-    <script src="janken10.js" defer></script>
-  </head>
-
-  <!-- body タグには、サイトのコンテンツ（内容・出し物）を記述します。
-       全ての要素は このbodyタグの中に書きます。-->
-  <body>
-    <!-- header タグは、サイト名などの表示に用います。 -->
-    <header>
-      <!-- h1 タグは、大見出しを表すタグです。 -->
-      <h1>じゃんけんゲーム</h1>
+<!-- ページの表示部分 -->
+<body>
+  <!-- ゲーム全体を囲むコンテナ -->
+  <div class="game-container">
+    <!-- ヘッダー部分：タイトルとスコア表示 -->
+    <header class="game-header">
+      <h1 class="game-title">じゃんけんゲーム</h1>
+      <!-- スコア表示領域 -->
+      <div class="score-display">
+        <div class="score-item">
+          <span class="score-label">勝ち</span>
+          <span id="win" class="score-value">0</span>
+        </div>
+        <div class="score-item">
+          <span class="score-label">負け</span>
+          <span id="lose" class="score-value">0</span>
+        </div>
+      </div>
     </header>
 
-    <!-- figure タグは 図版(figure)を示すタグです。 -->
-    <figure>
-      <!-- img タグは、絵(image)を表示するためのタグです。 -->
-      <img id="hand" src="images/guu.webp" alt="グー">
-    </figure>
+    <!-- メインコンテンツ -->
+    <main class="game-main">
+      <!-- コンピュータの手を表示する領域 -->
+      <div class="computer-hand">
+        <div class="hand-container">
+          <img id="hand" src="images/guu.webp" alt="コンピュータの手: グー" class="hand-image">
+        </div>
+        <p class="hand-label">コンピュータ</p>
+      </div>
 
-    <!-- p は 段落(paragraph)を表す際に用いるタグです。 -->
-    <!-- 複数のpタグがあるので、class属性をnoteとして、区別します。-->
-    <p class="note">
-      <!-- br タグを入れると、途中で改行できます。 -->
-      みんな知っているじゃんけん<br>
-      「開始」ボタンを押すと始まるよ<br>
-      グー・チョキ・パー どれかを押してね
-    </p>
+      <!-- 結果メッセージを表示する領域 -->
+      <!-- aria-liveでスクリーンリーダーに変更を通知 -->
+      <div class="result-message" id="result-message" aria-live="polite">
+        <p>「開始」ボタンを押して<br>じゃんけんを始めてください</p>
+      </div>
 
-    <!-- プレイヤーの手を選ぶ為のボタンです。 -->
-    <!-- button タグを使って、画面に「グーチョキパー」のボタンを表示します。
-         JavaScriptで操作しやすいようID属性をguuに、値を0にします。 -->
-    <button id="guu"   value="0" title="グー"></button>
-    <button id="choki" value="1" title="チョキ"></button>
-    <button id="paa"   value="2" title="パー"></button>
+      <!-- プレイヤーの選択肢（グー・チョキ・パー） -->
+      <div class="player-options">
+        <button id="guu" class="hand-button" value="0" aria-label="グーを出す">
+          <i class="fas fa-hand-rock"></i>
+          <span>グー</span>
+        </button>
+        <button id="choki" class="hand-button" value="1" aria-label="チョキを出す">
+          <i class="fas fa-hand-scissors"></i>
+          <span>チョキ</span>
+        </button>
+        <button id="paa" class="hand-button" value="2" aria-label="パーを出す">
+          <i class="fas fa-hand-paper"></i>
+          <span>パー</span>
+        </button>
+      </div>
+    </main>
 
-    <!-- 得点表示です。 -->
-    <!-- 複数のpタグがあるので、class属性をscoreとして、区別します -->
-    <p class="score">
-      <!-- JavaScriptから操作しやすいよう、id属性をwinとloseにします。 -->
-      <span id="win">0</span> 勝
-      <span id="lose">0</span> 敗
-    </p>
-
-    <!-- button タグを使って、画面に「開始」ボタンを表示します。
-         このボタンにも、id="play" と ID を付与しておきます。 -->
-    <button id="play">開始</button>
-  </body>
+    <!-- フッター：スタートボタン -->
+    <footer class="game-footer">
+      <button id="play" class="start-button" aria-label="じゃんけんを開始">
+        <i class="fas fa-play"></i>
+        <span>じゃんけんを開始</span>
+      </button>
+    </footer>
+    
+    <!-- オーディオ要素 -->
+    <audio id="bgm" loop>
+      <source src="sounds/bgm.mp3" type="audio/mp3">
+      お使いのブラウザはオーディオ要素をサポートしていません。
+    </audio>
+    <audio id="winSound">
+      <source src="sounds/win.mp3" type="audio/mp3">
+    </audio>
+    <audio id="loseSound">
+      <source src="sounds/lose.mp3" type="audio/mp3">
+    </audio>
+    <audio id="drawSound">
+      <source src="sounds/draw.mp3" type="audio/mp3">
+    </audio>
+    
+    <script src="app.js"></script>
+    <script src="game.js"></script>
+  </div>
+</body>
 </html>

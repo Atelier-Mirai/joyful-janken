@@ -1,0 +1,677 @@
+/* ======================
+   変数とリセット
+   ====================== */
+/* このセクションでは、アプリ全体で使用する色や間隔などの
+   変数と、ブラウザのデフォルトスタイルをリセットする
+   スタイルを定義しています。 */
+/* 
+ * :root はHTML文書のルート要素（通常は<html>要素）を表す擬似クラス
+ * ここで定義したCSS変数は、文書全体で再利用可能
+ * 例: var(--primary-color) で値を参照可能
+ */
+:root {
+  /* 
+   * カラーパレット
+   * #RRGGBB 形式の16進数カラーコードを使用
+   * - 各2桁が赤(R)、緑(G)、青(B)の強さを00-FF(0-255)で指定
+   * - 例: #3f51b5 は R:63, G:81, B:181 を表す
+   * - 同じ色を複数箇所で使う場合、変数にしておくと一括変更が容易
+   */
+  --primary-color: #3f51b5;
+  --primary-light: #757de8;
+  --primary-dark: #002984;
+  --secondary-color: #ff4081;
+  --secondary-light: #ff79b0;
+  --secondary-dark: #c60055;
+  --background: #f5f5f7;
+  --surface: #ffffff;
+  --error: #b00020;
+  --on-primary: #ffffff;
+  --on-secondary: #000000;
+  --on-background: #1a1a1a;
+  --on-surface: #1a1a1a;
+  --on-error: #ffffff;
+  
+  /* スペーシング */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  
+  /* シャドウ */
+  --shadow-sm: 0 1px 3px #0000001f, 0 1px 2px #0000003d;
+  --shadow-md: 0 4px 6px #0000001a, 0 1px 3px #00000014;
+  --shadow-lg: 0 10px 25px #0000001a, 0 5px 10px #0000000d;
+  
+  /* 角丸 */
+  --border-radius-sm: 4px;
+  --border-radius-md: 8px;
+  --border-radius-lg: 16px;
+  --border-radius-round: 50%;
+  
+  /* トランジション */
+  --transition-fast: 0.15s ease-in-out;
+  --transition-normal: 0.3s ease-in-out;
+}
+
+/* リセットCSS
+   ブラウザごとのデフォルトスタイルの違いをリセットして、
+   ブラウザ間で一貫した表示を実現します。 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+div,
+span,
+h1, h2, h3, h4, h5, h6,
+p,
+button,
+input,
+select,
+textarea {
+  box-sizing: border-box;
+}
+
+/* ======================
+   ベーススタイル
+   ====================== */
+/* アプリ全体の基本となるスタイルを定義します。
+   フォントファミリーや背景色など、
+   全体的な見た目を整えます。 */
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background-color: var(--background);
+  color: var(--on-background);
+  line-height: 1.6;
+  min-height: 100vh;
+  /* グリッドレイアウトを有効化 */
+  display: grid;
+  /* 1列のグリッドを作成し、行はコンテンツに合わせて自動調整 */
+  grid-template-rows: auto;
+  /* コンテンツを縦方向に配置 */
+  grid-auto-flow: row;
+}
+
+/* ======================
+   レイアウト
+   ====================== */
+/* ページの全体的なレイアウトを定義します。
+   CSS Gridを使用して、ヘッダー、メインコンテンツ、
+   フッターの配置を制御しています。 */
+.game-container {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+  background-color: var(--surface);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 500px;
+  min-height: 100vh;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+/* ======================
+   ヘッダー
+   ====================== */
+/* ゲームのヘッダー部分のスタイルを定義します。
+   タイトルとスコア表示を含みます。 */
+.game-header {
+  grid-area: header;
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-xs);
+  background-color: var(--primary-color);
+  color: var(--on-primary);
+  padding: var(--spacing-sm) var(--spacing-md);
+  text-align: center;
+
+  .game-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+    text-shadow: 1px 1px 2px #0000001f;
+  }
+
+  /* ======================
+     スコア表示
+     ====================== */
+  .score-display {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+    max-width: 240px;
+    margin: 0 auto;
+    padding-top: var(--spacing-xs);
+
+    .score-item {
+      display: grid;
+      grid-template-rows: auto auto;
+      gap: 0.15rem;
+      justify-items: center;
+
+      .score-label {
+        font-size: 0.75rem;
+        opacity: 0.9;
+      }
+
+      .score-value {
+        font-size: 1.25rem;
+        font-weight: 700;
+        background-color: #ffffff33;
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        display: grid;
+        place-items: center;
+      }
+    }
+  }
+}
+
+/* ======================
+   メインコンテンツ
+   ====================== */
+/* ゲームのメイン部分のスタイルを定義します。
+   コンピュータの手の表示、結果メッセージ、
+   プレイヤーの選択肢を含みます。 */
+.game-container {
+  /* グリッドレイアウトを定義 */
+  display: grid;
+  /* 
+   * grid-template-areas: グリッド内の領域名を定義
+   * 各文字列が行を表し、スペース区切りで列を表す
+   * 同じ名前のエリアは1つのセルにまとめられる
+   */
+  grid-template-areas:
+    "header"   /* 1行目: ヘッダー領域 */
+    "main"     /* 2行目: メインコンテンツ領域 */
+    "footer";  /* 3行目: フッター領域 */
+  /* 
+   * grid-template-rows: 行の高さを定義
+   * auto: コンテンツに合わせて自動調整
+   * 1fr: 利用可能なスペースを1つのフラクションとして確保
+   * auto: コンテンツに合わせて自動調整
+   */
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  background-color: var(--background);
+  color: var(--on-background);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+.game-main {
+  grid-area: main;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  align-content: space-between;
+
+  /* コンピュータの手を表示するエリアのスタイル */
+  .computer-hand {
+    /* 
+     * display: grid: グリッドレイアウトを有効化
+     * grid-template-rows: 行の高さを定義
+     * auto: コンテンツに合わせて自動調整
+     * auto: コンテンツに合わせて自動調整
+     */
+    display: grid;
+    grid-template-rows: auto auto;
+    /* 
+     * justify-items: グリッドアイテムの配置を一度に指定
+     * center: 中央揃え
+     */
+    justify-items: center;
+    /* 
+     * gap: グリッドアイテム間の余白を定義
+     * var(--spacing-xs): 変数で定義された余白の値
+     */
+    gap: var(--spacing-xs);
+    /* 
+     * margin-bottom: 下方向の余白を定義
+     * var(--spacing-sm): 変数で定義された余白の値
+     */
+    margin-bottom: var(--spacing-sm);
+    height: 100%;
+    align-content: center;
+
+    /* 手の画像を表示する円形のコンテナ */
+    .hand-container {
+      /* CSS変数でサイズを定義（最小150px、またはビューポート幅の35%のいずれか小さい方） */
+      --hand-size: min(150px, 35vw);
+      
+      /* コンテナの幅と高さを同じ値に設定して正方形を作成 */
+      width: var(--hand-size);
+      height: var(--hand-size);
+      
+      /* グリッドレイアウトを有効化 */
+      display: grid;
+      /* 
+       * place-items: グリッドアイテムの配置を一度に指定
+       * 第一引数: 水平方向の配置 (start | end | center | stretch)
+       * 第二引数: 垂直方向の配置 (start | end | center | stretch)
+       * ここでは両方ともcenterを指定して中央揃え
+       */
+      place-items: center;
+      background-color: var(--background);
+      border-radius: 50%;
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--transition-normal);
+      margin: 0;
+
+      .hand-image {
+        width: 90%;
+        height: 90%;
+        object-fit: contain;
+        transition: transform var(--transition-normal);
+
+        .shake {
+          animation: shake 0.5s ease-in-out infinite;
+        }
+      }
+    }
+
+    .hand-label {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--on-background);
+      margin: 0;
+      text-align: center;
+      opacity: 0.9;
+    }
+  }
+
+  /* 勝敗結果を表示するメッセージエリアのスタイル */
+  .result-message {
+    /* 
+     * display: grid: グリッドレイアウトを有効化
+     * place-items: グリッドアイテムの配置を一度に指定
+     * center: 中央揃え
+     */
+    display: grid;
+    place-items: center;
+    min-height: 2rem;
+    width: 100%;
+    margin: var(--spacing-sm) 0;
+    padding: 0;
+    grid-row: 2 / 3;
+
+    p {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--on-surface);
+      background-color: var(--background);
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--border-radius-md);
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-normal);
+      width: 100%;
+      max-width: 100%;
+      text-align: center;
+      margin: 0;
+    }
+
+    &.win p {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      transform: scale(1.02);
+    }
+
+    &.lose p {
+      background-color: #ffebee;
+      color: #c62828;
+      transform: scale(1.02);
+      text-align: center;
+      box-sizing: border-box;
+    }
+    
+    &.draw p {
+      background-color: #fff8e1;
+      color: #f57f17;
+      transform: scale(1.02);
+    }
+  }
+}
+
+/* アニメーション */
+@keyframes shake {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(-5px) rotate(-5deg); }
+  75% { transform: translateX(5px) rotate(5deg); }
+}
+
+/* プレイヤーが選択する手のボタンのスタイル */
+.player-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: center; /* グリッドアイテムを垂直方向に中央揃え */
+  gap: var(--spacing-xs);
+  width: 100%;
+  margin: 0 auto;
+  padding: var(--spacing-sm);
+  background-color: var(--surface);
+  box-shadow: 0 -2px 10px #0000001a;
+  box-sizing: border-box;
+  min-height: 100px; /* ボタンの高さ(最大70px) + 上下のパディングを考慮した値 */
+  max-height: 120px;
+  .hand-button {
+    --button-size: min(70px, 20vw);
+    display: grid;
+    place-items: center;
+    grid-template-rows: 1fr auto;
+    width: var(--button-size);
+    height: var(--button-size);
+    min-width: 60px;
+    min-height: 60px;
+    border: 2px solid var(--primary-color);
+    border-radius: 50%;
+    background-color: var(--surface);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    color: var(--primary-color);
+    font-size: 0.6rem;
+    font-weight: 500;
+    padding: 0.2rem;
+    margin: 0 auto;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+
+    &:hover,
+    &:focus {
+      background-color: var(--primary-color);
+      color: var(--on-primary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      outline: none;
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: var(--shadow-sm);
+    }
+
+    i {
+      font-size: min(1.5rem, 6vw);
+      margin: 0 0 0.1rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 1.5em;
+      line-height: 1;
+    }
+
+    span {
+      display: block;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+  }
+}
+
+.game-footer {
+  grid-area: footer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: var(--spacing-md);
+  box-sizing: border-box;
+
+  .start-button {
+    display: inline-grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: var(--spacing-sm);
+    background-color: var(--primary-color);
+    color: var(--on-primary);
+    border: none;
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-md);
+    width: 100%;
+    max-width: 280px;
+    text-align: center;
+    box-sizing: border-box;
+
+    i {
+      font-size: 1rem;
+      transition: transform var(--transition-normal);
+    }
+
+    &:hover,
+    &:focus {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+      outline: none;
+    }
+
+      &:active {
+        transform: translateY(0);
+        box-shadow: var(--shadow-md);
+      }
+
+      &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none !important;
+        box-shadow: var(--shadow-sm) !important;
+      }
+    }
+  }
+
+  /* ======================
+     アニメーション
+     ====================== */
+.bounce {
+  animation: bounce 0.5s ease infinite;
+}
+
+.pulse {
+  animation: pulse 1s ease infinite;
+}
+
+/* ======================
+   アニメーション
+   ====================== */
+/* ゲーム内で使用するアニメーションを定義します。
+   @keyframesを使用して、要素の動きを制御します。 */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+/* ======================
+   レスポンシブデザイン
+   ====================== */
+
+/* 小さなスマートフォン (縦向き) */
+@media (width <= 360px) {
+  :root {
+    --spacing-sm: 0.4rem;
+    --spacing-md: 0.8rem;
+  }
+  
+  .game-container .player-options .hand-button {
+    min-width: 55px;
+    min-height: 55px;
+    font-size: 0.55rem;
+  }
+  
+  .game-container .player-options .hand-button i {
+    font-size: min(1.3rem, 6vw);
+  }
+  
+  .game-header .game-title {
+    font-size: 1.3rem;
+  }
+  
+  .score-display .score-label {
+    font-size: 0.7rem;
+  }
+  
+  .score-display .score-value {
+    font-size: 1.1rem;
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+}
+
+/* タブレットサイズ (768px 以上) */
+@media (width >= 768px) {
+  .game-container {
+    max-width: 90%;
+    border-radius: var(--border-radius-lg);
+    margin: var(--spacing-md) auto;
+    min-height: calc(100vh - var(--spacing-md) * 2);
+    max-height: 800px;
+  }
+  
+  .game-container .player-options .hand-button {
+    --button-size: min(90px, 15vw);
+    min-width: 75px;
+    min-height: 75px;
+    font-size: 0.7rem;
+  }
+  
+  .game-container .player-options .hand-button i {
+    font-size: min(2rem, 5vw);
+  }
+  
+  .game-container .computer-hand .hand-container {
+    --hand-size: min(180px, 30vw);
+  }
+  
+  .game-header .game-title {
+    font-size: 1.8rem;
+  }
+  
+  .game-container .result-message p {
+    font-size: 1.2rem;
+    padding: var(--spacing-md);
+  }
+  
+  .game-container .game-footer .start-button {
+    max-width: 320px;
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-size: 1.1rem;
+  }
+  
+  .game-container .game-footer .start-button i {
+    font-size: 1.2rem;
+  }
+}
+
+/* デスクトップサイズ (1024px 以上) */
+@media (width >= 1024px) {
+  .game-container {
+    max-width: 900px;
+  }
+  
+  .game-container .player-options .hand-button {
+    --button-size: min(100px, 12vw);
+    min-width: 85px;
+    min-height: 85px;
+    font-size: 0.8rem;
+  }
+  
+  .game-container .player-options .hand-button i {
+    font-size: min(2.2rem, 4vw);
+  }
+  
+  .game-container .computer-hand .hand-container {
+    --hand-size: min(200px, 25vw);
+  }
+  
+  .game-header .game-title {
+    font-size: 2rem;
+  }
+}
+
+/* 特大画面 (1440px 以上) */
+@media (width >= 1440px) {
+  .game-container {
+    max-width: 1000px;
+  }
+  
+  .game-container .player-options .hand-button {
+    --button-size: min(120px, 10vw);
+  }
+  
+  .game-container .computer-hand .hand-container {
+    --hand-size: min(240px, 20vw);
+  }
+}
+
+/* ======================
+   ダークモード
+   ====================== */
+/* ユーザーのOS設定に応じてダークモードを適用します。
+   prefers-color-schemeメディアクエリを使用して、
+   ダークモード時の色を定義します。 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #121212;
+    --surface: #1e1e1e;
+    --on-background: #e0e0e0;
+    --on-surface: #e0e0e0;
+  }
+  
+  .hand-container {
+    background-color: #2d2d2d;
+  }
+  
+  .result-message p {
+    background-color: #2d2d2d;
+  }
+  
+  .hand-button {
+    background-color: #2d2d2d;
+    border-color: var(--primary-light);
+  }
+  
+  .start-button {
+    background-color: var(--primary-light);
+  }
+  
+  .start-button:hover,
+  .start-button:focus {
+    background-color: var(--primary-dark);
+  }
+}

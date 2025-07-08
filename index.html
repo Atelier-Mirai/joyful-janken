@@ -74,21 +74,21 @@
       <!-- 結果メッセージを表示する領域 -->
       <!-- aria-liveでスクリーンリーダーに変更を通知 -->
       <div class="result-message" id="result-message" aria-live="polite">
-        <p>「開始」ボタンを押して<br>じゃんけんを始めてください</p>
+        <p>「じゃんけんを開始」ボタンを押してね</p>
       </div>
 
       <!-- プレイヤーの選択肢（グー・チョキ・パー） -->
       <div class="player-options">
         <button id="guu" class="hand-button" value="0" aria-label="グーを出す">
-          <i class="fas fa-hand-rock"></i>
+          <i class="fas fa-hand-rock fa-2x"></i>
           <span>グー</span>
         </button>
         <button id="choki" class="hand-button" value="1" aria-label="チョキを出す">
-          <i class="fas fa-hand-scissors"></i>
+          <i class="fas fa-hand-scissors fa-2x"></i>
           <span>チョキ</span>
         </button>
         <button id="paa" class="hand-button" value="2" aria-label="パーを出す">
-          <i class="fas fa-hand-paper"></i>
+          <i class="fas fa-hand-paper fa-2x"></i>
           <span>パー</span>
         </button>
       </div>
@@ -116,9 +116,12 @@
     <audio id="drawSound">
       <source src="sounds/draw.mp3" type="audio/mp3">
     </audio>
-    
-    <script src="app.js"></script>
-    <script src="game.js"></script>
+
+    <!-- BGM制御ボタン -->
+    <button id="bgmToggle" class="bgm-toggle" aria-label="BGMを切り替え">
+      <i class="fas fa-volume-up"></i>
+    </button>
+
   </div>
 </body>
 </html>

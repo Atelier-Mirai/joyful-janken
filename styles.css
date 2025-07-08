@@ -379,6 +379,7 @@ body {
   box-sizing: border-box;
   min-height: 100px; /* ボタンの高さ(最大70px) + 上下のパディングを考慮した値 */
   max-height: 120px;
+
   .hand-button {
     --button-size: min(70px, 20vw);
     display: grid;
@@ -417,15 +418,14 @@ body {
     }
 
     i {
-      font-size: min(1.5rem, 6vw);
+      font-size: min(2rem, 10vw);
       margin: 0 0 0.1rem 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: grid;
+      place-items: center;
       height: 1.5em;
       line-height: 1;
     }
-
+    
     span {
       display: block;
       line-height: 1.2;
@@ -434,16 +434,17 @@ body {
   }
 }
 
+/* ゲームフッター */
 .game-footer {
   grid-area: footer;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
+  display: grid;
+  place-items: center;
   padding: var(--spacing-md);
   box-sizing: border-box;
+}
 
-  .start-button {
+/* じゃんけんを開始するボタン */
+.start-button {
     display: inline-grid;
     grid-template-columns: auto 1fr;
     align-items: center;
@@ -487,12 +488,42 @@ body {
         transform: none !important;
         box-shadow: var(--shadow-sm) !important;
       }
+  }
+
+  /* BGMトグルボタン */
+  .bgm-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #357abd;
+    }
+
+    &.muted {
+      background-color: #e74c3c;
+    }
+
+    &.muted:hover {
+      background-color: #c0392b;
     }
   }
 
-  /* ======================
-     アニメーション
-     ====================== */
+/* ======================
+   アニメーション
+   ====================== */
 .bounce {
   animation: bounce 0.5s ease infinite;
 }

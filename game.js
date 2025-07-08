@@ -7,25 +7,25 @@
 // - PLAYING: プレイ中
 // - RESULT: 結果表示中
 const GAME_STATE = {
-  IDLE: 'idle',
+  IDLE:    'idle',
   PLAYING: 'playing',
-  RESULT: 'result'
+  RESULT:  'result'
 };
 
 // じゃんけんの手の種類を表す定数
 // 0: グー, 1: チョキ, 2: パー
 const HAND_TYPES = {
-  ROCK: 0,
+  ROCK:     0,
   SCISSORS: 1,
-  PAPER: 2
+  PAPER:    2
 };
 
 // 勝敗結果を表す定数
 // 0: あいこ, 1: 負け, 2: 勝ち
 const RESULT_TYPES = {
-  DRAW: 0,
-  LOSE: 1,
-  WIN: 2
+  DRAW:   0,
+  LOSE:   1,
+  WIN:    2
 };
 
 // ============================================
@@ -45,6 +45,9 @@ class JankenGame {
     this.winSound  = document.getElementById('winSound');
     this.loseSound = document.getElementById('loseSound');
     this.drawSound = document.getElementById('drawSound');
+    
+    // BGMの初期化と制御
+    this.initBGM();
     
     // ユーザーインタラクションがないと音が再生されない問題を回避するためのイベントリスナー
     this.setupAudioInteractions();
@@ -111,7 +114,7 @@ class JankenGame {
     // ============================================
     // イベントリスナーの設定
     // ============================================
-    // スタートボタンにクリックイベントを設定
+    // 各ボタンにクリックイベントを設定
     // ゲームの状態に応じて適切な処理を実行
     this.bindEvents();
     
@@ -156,7 +159,7 @@ class JankenGame {
     this.playBgm();
     
     // ユーザーに現在の状態を通知
-    this.resultMessage.textContent = 'コンピュータの手を選んでいます...';
+    this.resultMessage.innerHTML = `<p>コンピュータの手を選んでいます...</p>`;
     
     // スタートボタンを無効化（連続クリック防止）
     this.playButton.disabled = true;
@@ -168,7 +171,8 @@ class JankenGame {
     this.lastUpdateTime = performance.now();
     
     // アニメーションフレームを開始し、animateメソッドをコールバックとして登録
-    this.animationFrameId = requestAnimationFrame((timestamp) => this.animate(timestamp));
+    this.animationFrameId 
+      = requestAnimationFrame((timestamp) => this.animate(timestamp));
   }
   
   // ============================================
@@ -278,7 +282,6 @@ class JankenGame {
     
     // 計算結果を1回だけ行い、その結果で分岐
     const result = (player - computer + 3) % 3;
-    console.log(`judge: player=${player}, computer=${computer}, result=${result}`);
     
     switch (result) {
       case 1:
@@ -296,7 +299,6 @@ class JankenGame {
   // @param {number} result - 勝敗結果（RESULT_TYPESの値）
   // ============================================
   showResult(result, playerHand, computerHand) {
-    console.log(`showResult: result=${result}, playerHand=${playerHand}, computerHand=${computerHand}`);
     // 手の数値（0,1,2）を日本語の手の名前に変換するための配列
     const handNames = ['グー', 'チョキ', 'パー'];
     
@@ -313,31 +315,18 @@ class JankenGame {
         // プレイヤーの勝ちの場合
         message = `あなたの勝ち！ (${playerHandName} ＞ ${computerHandName})`;
         className = 'win';  // 勝利時のスタイルクラス
-        // 勝利時の効果音を再生
-        // this.playResultSound(RESULT_TYPES.WIN);
-        this.winSound.currentTime = 0;
-        this.winSound.play().catch(e => console.log('効果音再生エラー:', e));
-        console.log('winSound再生');
         break;
         
       case RESULT_TYPES.LOSE:
         // プレイヤーの負けの場合
         message = `あなたの負け (${playerHandName} ＜ ${computerHandName})`;
         className = 'lose';  // 敗北時のスタイルクラス
-        // 敗北時の効果音を再生
-        this.loseSound.currentTime = 0;
-        this.loseSound.play().catch(e => console.log('効果音再生エラー:', e));
-        console.log('loseSound再生');
         break;
         
       default:
         // あいこの場合（上記以外の全ての場合）
         message = `あいこ！ (${playerHandName} ＝ ${computerHandName})`;
         className = 'draw';  // 引き分け時のスタイルクラス
-        // 引き分け時の効果音を再生
-        this.drawSound.currentTime = 0;
-        this.drawSound.play().catch(e => console.log('効果音再生エラー:', e));
-        console.log('drawSound再生');
         break;
     }
     
@@ -346,6 +335,9 @@ class JankenGame {
     
     // 結果に応じたスタイルクラスを適用
     this.resultMessage.className = `result-message ${className}`;
+
+    // 結果に応じた効果音を再生
+    this.playResultSound(result);
   }
   
   // ============================================
@@ -384,59 +376,120 @@ class JankenGame {
   }
   
   // ============================================
-  // BGMを再生
-  // 既に再生中の場合は何もしない
+  // BGMの初期化と制御
   // ============================================
-  playBgm() {
-    if (!this.bgm) return;
-    
-    // オーディオコンテキストがサスペンドされていたら再開
-    if (this.audioContext && this.audioContext.state === 'suspended') {
-      this.audioContext.resume();
+  initBGM() {
+    this.bgm = document.getElementById('bgm');
+    this.bgmToggle = document.getElementById('bgmToggle');
+    this.isSoundEnabled = true; // BGMと効果音の両方を制御するフラグ
+
+    // ローカルストレージから設定を読み込む
+    const savedSoundState = localStorage.getItem('soundEnabled');
+    if (savedSoundState !== null) {
+      this.isSoundEnabled = savedSoundState === 'true';
+      this.updateBGMState();
     }
-    
-    // 既に再生中でない場合のみ再生を開始
-    if (this.bgm.paused) {
-      // 音量を少し下げる（オプション）
-      this.bgm.volume = 0.7;
-      
-      // 再生を試みる
+
+    // ボタンクリックイベント
+    this.bgmToggle.addEventListener('click', () => {
+      this.isSoundEnabled = !this.isSoundEnabled;
+      this.updateBGMState();
+      localStorage.setItem('soundEnabled', this.isSoundEnabled);
+    });
+
+    // ユーザーインタラクションでBGMを再生
+    document.addEventListener('click', this.handleFirstInteraction.bind(this), { once: true });
+  }
+
+  // ============================================
+  // 初回のユーザーインタラクションでBGMを再生
+  // ============================================
+  handleFirstInteraction() {
+    if (this.isSoundEnabled) {
       const playPromise = this.bgm.play();
-      
-      // 再生に失敗した場合のエラーハンドリング
       if (playPromise !== undefined) {
         playPromise.catch(error => {
-          console.log('BGM再生エラー:', error);
-          // ユーザーインタラクションがまだ行われていない場合は、ボタンクリックを待つ
-          if (error.name === 'NotAllowedError' || error.name === 'NotSupportedError') {
-            console.log('ユーザーインタラクションを待機中...');
-          }
+          console.log('BGM再生に失敗しました:', error);
         });
       }
     }
   }
-  
+
+  // ============================================
+  // サウンドの状態を更新
+  // ============================================
+  updateBGMState() {
+    if (this.isSoundEnabled) {
+      // BGMの再生
+      this.bgm.volume = 0.5;
+      this.bgm.loop   = true;
+      this.bgmToggle.classList.remove('muted');
+      this.bgmToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
+      this.bgm.play().catch(e => console.log('BGM再生エラー:', e));
+    } else {
+      // BGMの停止
+      this.bgm.pause();
+      this.bgmToggle.classList.add('muted');
+      this.bgmToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
+    }
+  }
+
+  // ============================================
+  // 効果音を再生
+  // ============================================
+  playSound(sound) {
+    if (!this.isSoundEnabled) return; // サウンドが無効な場合は再生しない
+
+    sound.currentTime = 0; // 再生位置を先頭に戻す
+    sound.play().catch(e => console.log('効果音再生エラー:', e));
+  }
+
   // ============================================
   // 結果に応じた効果音を再生
   // ============================================
-  // playResultSound(result) {
-  //   // 勝ちの効果音を再生
-  //   if (result === RESULT_TYPES.WIN && this.winSound) {
-  //     this.winSound.currentTime = 0;
-  //     this.winSound.play().catch(e => console.log('効果音再生エラー:', e));
-  //   } 
-  //   // 負けの効果音を再生
-  //   else if (result === RESULT_TYPES.LOSE && this.loseSound) {
-  //     this.loseSound.currentTime = 0;
-  //     this.loseSound.play().catch(e => console.log('効果音再生エラー:', e));
-  //   } 
-  //   // 引き分けの効果音を再生
-  //   else if (result === RESULT_TYPES.DRAW && this.drawSound) {
-  //     this.drawSound.currentTime = 0;
-  //     this.drawSound.play().catch(e => console.log('効果音再生エラー:', e));
-  //   }
-  // }
-  
+  playResultSound(result) {
+    if (!this.isSoundEnabled) return; // サウンドが無効な場合は再生しない
+
+    switch (result) {
+      case RESULT_TYPES.WIN:
+        this.playSound(this.winSound);
+        break;
+      case RESULT_TYPES.LOSE:
+        this.playSound(this.loseSound);
+        break;
+      default:
+        this.playSound(this.drawSound);
+    }
+  }
+
+  // ============================================
+  // BGMを再生
+  // ============================================
+  playBgm() {
+    if (!this.isSoundEnabled) return; // サウンドが無効な場合は再生しない
+
+    const playPromise = this.bgm.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(error => {
+        console.log('BGM再生に失敗しました:', error);
+      });
+    }
+  }
+  // ============================================
+  // 初回のユーザーインタラクションでBGMを再生
+  // ============================================
+  handleFirstInteraction() {
+    if (this.isBGMEnabled) {
+      const playPromise = this.bgm.play();
+
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          console.log('BGM再生に失敗しました:', error);
+        });
+      }
+    }
+  }
+
   // ============================================
   // スコアを読み込み
   // ローカルストレージから前回のスコアを読み込む

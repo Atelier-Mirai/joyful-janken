@@ -1,0 +1,57 @@
+<!-- 簡単じゃんけんゲーム -->
+<!-- simple-index.html - ゲームの基本構造
+     スコア表示
+     じゃんけんの選択ボタン
+     結果表示エリア
+     リセットボタン
+-->
+
+<!-- HTML5の文書型宣言（HTML5を表す） -->
+<!DOCTYPE html>
+<!-- HTML5の言語属性（日本語） -->
+<html lang="ja">
+
+<!-- HTMLのヘッダー部分（表示されない部分） -->
+<head>
+    <!-- 文字コードをUTF-8に設定（日本語を正しく表示するために重要） -->
+    <meta charset="UTF-8">
+    <!-- スマートフォンなどの画面幅に合わせて表示を最適化 -->
+    <meta name="viewport" content="width=device-width">
+    <!-- ブラウザのタブに表示されるタイトル -->
+    <title>シンプルじゃんけんゲーム</title>
+    <!-- CSSファイルのリンク -->
+    <link rel="stylesheet" href="simple-style.css">
+</head>
+
+<!-- HTMLの本体部分（表示される部分） -->
+<body>
+    <!-- ゲームのコンテナ -->
+    <div class="container">
+        <!-- タイトル -->
+        <h1>簡単じゃんけんゲーム</h1>
+        
+        <!-- スコア表示 -->
+        <div class="score">
+            <div>あなた: <span id="player-score">0</span></div>
+            <div>コンピュータ: <span id="computer-score">0</span></div>
+        </div>
+        
+        <!-- じゃんけんの選択ボタン -->
+        <div class="choices">
+            <button class="choice" data-choice="rock">✊</button>
+            <button class="choice" data-choice="paper">✋</button>
+            <button class="choice" data-choice="scissors">✌️</button>
+        </div>
+        
+        <!-- 結果表示エリア -->
+        <div id="result">選んでください！</div>
+        <div id="computer-choice"></div>
+        
+        <!-- リセットボタン -->
+        <button id="reset">リセット</button>
+    </div>
+    
+    <!-- ゲームのロジックを含むJavaScriptファイル -->
+    <script src="simple-game.js"></script>
+</body>
+</html>

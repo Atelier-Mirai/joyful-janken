@@ -1,0 +1,95 @@
+/* simple-style.css - ゲームの見た目を整えるスタイル
+   レスポンシブデザイン
+   ホバーエフェクト
+   きれいなカラースキーム
+*/
+
+/* 全体のスタイル */
+body {
+    font-family: 'Arial', sans-serif;
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f5f5f5;
+}
+
+/* ゲームのコンテナ */
+.container {
+    text-align: center;
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* タイトル */
+h1 {
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+/* スコア表示 */
+.score {
+    display: grid;
+    grid-auto-flow: column;
+    place-items: center;
+    margin-bottom: 2rem;
+    font-size: 1.2rem;
+}
+
+/* じゃんけんの選択ボタン */
+.choices {
+    display: grid;
+    grid-auto-flow: column;
+    place-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+/* じゃんけんの選択ボタン */
+.choice {
+    font-size: 2rem;
+    background: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+/* じゃんけんの選択ボタン */
+.choice:hover {
+    transform: scale(1.1);
+    background: #45a049;
+}
+
+/* 結果表示 */
+#result {
+    font-size: 1.5rem;
+    margin: 1rem 0;
+    min-height: 2rem;
+}
+
+/* コンピュータの選択表示 */
+#computer-choice {
+    font-size: 1.5rem;
+    margin: 1rem 0;
+    min-height: 3rem;
+}
+
+/* リセットボタン */
+#reset {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* リセットボタン */
+#reset:hover {
+    background: #d32f2f;
+}

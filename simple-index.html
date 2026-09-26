@@ -1,57 +1,63 @@
-<!-- 簡単じゃんけんゲーム -->
-<!-- simple-index.html - ゲームの基本構造
-     スコア表示
-     じゃんけんの選択ボタン
-     結果表示エリア
-     リセットボタン
+<!doctype html>
+<!--
+  simple-index.html — シンプル版じゃんけんゲームの骨組み
+  ・スコア表示
+  ・じゃんけんの手を選ぶボタン
+  ・結果の表示
+  ・リセットボタン
 -->
-
-<!-- HTML5の文書型宣言（HTML5を表す） -->
-<!DOCTYPE html>
-<!-- HTML5の言語属性（日本語） -->
+<!-- 文書の言語を日本語に設定（読み上げや自動翻訳の手がかりになる） -->
 <html lang="ja">
-
-<!-- HTMLのヘッダー部分（表示されない部分） -->
 <head>
-    <!-- 文字コードをUTF-8に設定（日本語を正しく表示するために重要） -->
-    <meta charset="UTF-8">
-    <!-- スマートフォンなどの画面幅に合わせて表示を最適化 -->
-    <meta name="viewport" content="width=device-width">
-    <!-- ブラウザのタブに表示されるタイトル -->
-    <title>シンプルじゃんけんゲーム</title>
-    <!-- CSSファイルのリンク -->
-    <link rel="stylesheet" href="simple-style.css">
+  <!-- 文字コードを UTF-8 に設定（日本語を正しく表示するために重要） -->
+  <meta charset="utf-8">
+  <!-- スマートフォンなどの画面幅に合わせて表示を最適化 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- ブラウザのタブに表示されるタイトル -->
+  <title>シンプルじゃんけんゲーム</title>
+  <link rel="icon" href="images/favicon.ico" sizes="any">
+  <!-- 見た目を整える CSS -->
+  <link rel="stylesheet" href="stylesheets/simple.css">
+  <!-- ゲームの動きを作る JavaScript
+       defer を付けると HTML をすべて読み終えてから実行されるので、
+       <head> に書いてもボタンなどの要素を確実に見つけられる -->
+  <script src="javascripts/simple.js" defer></script>
 </head>
-
-<!-- HTMLの本体部分（表示される部分） -->
 <body>
-    <!-- ゲームのコンテナ -->
-    <div class="container">
-        <!-- タイトル -->
-        <h1>簡単じゃんけんゲーム</h1>
-        
-        <!-- スコア表示 -->
-        <div class="score">
-            <div>あなた: <span id="player-score">0</span></div>
-            <div>コンピュータ: <span id="computer-score">0</span></div>
-        </div>
-        
-        <!-- じゃんけんの選択ボタン -->
-        <div class="choices">
-            <button class="choice" data-choice="rock">✊</button>
-            <button class="choice" data-choice="paper">✋</button>
-            <button class="choice" data-choice="scissors">✌️</button>
-        </div>
-        
-        <!-- 結果表示エリア -->
-        <div id="result">選んでください！</div>
-        <div id="computer-choice"></div>
-        
-        <!-- リセットボタン -->
-        <button id="reset">リセット</button>
+  <!-- ゲーム全体。<main> はページの主要な内容を表す -->
+  <main class="game">
+    <h1>シンプルじゃんけん</h1>
+
+    <!-- スコア表示。<dl> は「項目名と値」の組を表すリスト -->
+    <dl class="score">
+      <div>
+        <dt>あなた</dt>
+        <dd data-ui="player-score">0</dd>
+      </div>
+      <div>
+        <dt>コンピュータ</dt>
+        <dd data-ui="computer-score">0</dd>
+      </div>
+    </dl>
+
+    <!-- じゃんけんの手を選ぶボタン
+         data-choice にどの手かを書いておき、JavaScript から読み取る
+         絵文字だけでは読み上げが分かりにくいので aria-label で名前を付ける -->
+    <div class="choices" role="group" aria-label="あなたの手">
+      <button type="button" class="choice" data-choice="rock" aria-label="グー">✊</button>
+      <button type="button" class="choice" data-choice="scissors" aria-label="チョキ">✌️</button>
+      <button type="button" class="choice" data-choice="paper" aria-label="パー">✋</button>
     </div>
-    
-    <!-- ゲームのロジックを含むJavaScriptファイル -->
-    <script src="simple-game.js"></script>
+
+    <!-- 結果の表示
+         aria-live="polite" を付けると、内容が変わったときにスクリーンリーダーが読み上げる -->
+    <div class="result" aria-live="polite">
+      <p class="result-message" data-ui="result">手を選んでください！</p>
+      <p class="result-computer" data-ui="computer-choice"></p>
+    </div>
+
+    <!-- リセットボタン -->
+    <button type="button" class="reset" data-action="reset">リセット</button>
+  </main>
 </body>
 </html>

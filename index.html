@@ -1,127 +1,169 @@
-<!-- HTMLの文書であることを宣言 -->
-<!DOCTYPE html>
-<!-- 文書の言語を日本語に設定 -->
-<html lang="ja">
-<!-- ヘッダー部分：ページの見た目や動作に関する設定 -->
+<!doctype html>
+<html lang="ja" class="no-js">
 <head>
-  <!-- 文字コードをUTF-8に設定（日本語を正しく表示するために重要） -->
-  <meta charset="UTF-8">
-  <!-- スマートフォンなどの画面幅に合わせて表示を最適化 -->
-  <meta name="viewport" content="width=device-width">
-  <!-- ブラウザのタブに表示されるタイトル -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>じゃんけんゲーム</title>
-  <!-- 検索エンジンに表示される説明文 -->
-  <meta name="description" content="モダンなUI/UXで楽しむじゃんけんゲーム。HTML、CSS、JavaScriptで実装。">
-  
-  <!-- ファビコン（ブラウザのタブに表示されるアイコン） -->
-  <link rel="icon" href="images/favicon.ico" type="image/ico">
-  <!-- iOSデバイスでホーム画面に追加したときのアイコン -->
-  <link rel="apple-touch-icon" href="images/apple-touch-icon-180x180.png" type="image/png" sizes="180x180">
-  
-  <!-- プログレッシブウェブアプリ（PWA）の設定 -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="#f0f4f8">
-  <meta name="theme-color" content="#f0f4f8">
-  <meta name="apple-mobile-web-app-title" content="じゃんけん">
-  <link rel="manifest" href="/manifest.json">
-  
-  <!-- Font Awesome（アイコンフォントライブラリ）の読み込み -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-  
-  <!-- Google Fonts（日本語フォント）の読み込み -->
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-  
-  <!-- カスタムCSSファイルの読み込み -->
-  <link rel="stylesheet" href="styles.css">
-  
-  <!-- JavaScriptファイルの読み込み -->
-  <!-- type="module"でモダンなJavaScriptの機能を使用可能に -->
-  <!-- deferでHTMLの読み込み後にスクリプトを実行 -->
-  <script src="app.js" type="module" defer></script>
-  <script src="game.js" type="module" defer></script>
+  <meta name="description" content="コンピュータと対戦するじゃんけんゲーム。成績の保存、ファイルへの書き出し・読み込み、オフラインでの利用に対応しています。">
+
+  <!-- アイコン -->
+  <link rel="icon" href="images/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon-180x180.png">
+
+  <!-- PWA：アプリ名やアイコンは manifest に書く。ブラウザの枠の色は明暗で切り替える -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#fdf8f4" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1f1c1c" media="(prefers-color-scheme: dark)">
+
+  <link rel="stylesheet" href="stylesheets/style.css">
+  <!-- file:// で直接開いても動くよう、モジュールではなく通常のスクリプトを defer で読む -->
+  <script src="javascripts/app.js" defer></script>
 </head>
-
-<!-- ページの表示部分 -->
 <body>
-  <!-- ゲーム全体を囲むコンテナ -->
-  <div class="game-container">
-    <!-- ヘッダー部分：タイトルとスコア表示 -->
-    <header class="game-header">
-      <h1 class="game-title">じゃんけんゲーム</h1>
-      <!-- スコア表示領域 -->
-      <div class="score-display">
-        <div class="score-item">
-          <span class="score-label">勝ち</span>
-          <span id="win" class="score-value">0</span>
-        </div>
-        <div class="score-item">
-          <span class="score-label">負け</span>
-          <span id="lose" class="score-value">0</span>
-        </div>
-      </div>
-    </header>
+  <a class="skip-link" href="#main">本文へスキップ</a>
 
-    <!-- メインコンテンツ -->
-    <main class="game-main">
-      <!-- コンピュータの手を表示する領域 -->
-      <div class="computer-hand">
-        <div class="hand-container">
-          <img id="hand" src="images/guu.webp" alt="コンピュータの手: グー" class="hand-image">
+  <!-- 画面で使うアイコン。<use href="#i-…"> で呼び出し、色は currentColor で文字色に揃える -->
+  <svg class="icon-sprite" aria-hidden="true">
+    <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"/></symbol>
+    <symbol id="i-redo" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M20 12a8 8 0 1 1-2.34-5.66M20 4v5h-5"/></symbol>
+    <symbol id="i-sound" viewBox="0 0 24 24"><path fill="currentColor" d="M4 9.5v5a1 1 0 0 0 1 1h3l4.4 3.7a1 1 0 0 0 1.6-.77V5.57a1 1 0 0 0-1.6-.77L8 8.5H5a1 1 0 0 0-1 1Z"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></symbol>
+    <symbol id="i-mute" viewBox="0 0 24 24"><path fill="currentColor" d="M4 9.5v5a1 1 0 0 0 1 1h3l4.4 3.7a1 1 0 0 0 1.6-.77V5.57a1 1 0 0 0-1.6-.77L8 8.5H5a1 1 0 0 0-1 1Z"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="m17 9.5 5 5m0-5-5 5"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M12 4v11m-4.5-4.5L12 15l4.5-4.5M5 19h14"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M12 15V4M7.5 8.5 12 4l4.5 4.5M5 19h14"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4.5 7h15M10 7V5h4v2m-7 0 .8 12a1 1 0 0 0 1 .93h6.4a1 1 0 0 0 1-.93L17 7"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M5 19V13m5 6V8m5 11v-8m5 8V5"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" d="m6 6 12 12M18 6 6 18"/></symbol>
+  </svg>
+
+  <header class="site-header">
+    <h1 class="site-title">じゃんけんゲーム</h1>
+    <div class="header-actions">
+      <!-- 狭い画面だけに出す。押すと対戦成績のパネルを下から開く -->
+      <button type="button" class="button record-toggle" data-action="open-record" aria-expanded="false" aria-controls="record">
+        <svg class="icon" aria-hidden="true"><use href="#i-chart"/></svg>成績
+      </button>
+      <!-- 音の ON/OFF。押された状態を aria-pressed で伝える -->
+      <button type="button" class="icon-button" data-action="toggle-sound" aria-pressed="true" aria-label="音を鳴らす">
+        <svg class="icon icon-on" aria-hidden="true"><use href="#i-sound"/></svg>
+        <svg class="icon icon-off" aria-hidden="true"><use href="#i-mute"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" class="layout">
+    <!-- ===== 対戦 ===== -->
+    <section class="game" data-ui="game" data-state="idle" aria-labelledby="game-h">
+      <h2 id="game-h" class="visually-hidden">対戦</h2>
+
+      <!-- 狭い画面だけに出す、勝敗の小さな集計 -->
+      <p class="score-strip">
+        <span data-result="win">勝ち <b data-ui="mini-win">0</b></span>
+        <span data-result="lose">負け <b data-ui="mini-lose">0</b></span>
+        <span data-result="draw">あいこ <b data-ui="mini-draw">0</b></span>
+      </p>
+
+      <figure class="opponent">
+        <div class="opponent-stage">
+          <img class="opponent-hand" data-ui="computer-hand" src="images/guu.webp" alt="コンピュータの手：グー" width="512" height="512">
         </div>
-        <p class="hand-label">コンピュータ</p>
-      </div>
+        <figcaption class="opponent-name">コンピュータ</figcaption>
+      </figure>
 
-      <!-- 結果メッセージを表示する領域 -->
-      <!-- aria-liveでスクリーンリーダーに変更を通知 -->
-      <div class="result-message" id="result-message" aria-live="polite">
-        <p>「じゃんけんを開始」ボタンを押してね</p>
-      </div>
+      <p class="message" data-ui="message" role="status">「じゃんけんを はじめる」を押してね</p>
+      <noscript><p class="message message-warn">このゲームで遊ぶには JavaScript を有効にしてください。</p></noscript>
 
-      <!-- プレイヤーの選択肢（グー・チョキ・パー） -->
-      <div class="player-options">
-        <button id="guu" class="hand-button" value="0" aria-label="グーを出す">
-          <i class="fas fa-hand-rock fa-2x"></i>
+      <div class="hand-picker" role="group" aria-label="あなたの手">
+        <button type="button" class="hand-button" data-hand="guu" disabled>
+          <img src="images/guu.webp" alt="" width="512" height="512">
           <span>グー</span>
         </button>
-        <button id="choki" class="hand-button" value="1" aria-label="チョキを出す">
-          <i class="fas fa-hand-scissors fa-2x"></i>
+        <button type="button" class="hand-button" data-hand="choki" disabled>
+          <img src="images/choki.webp" alt="" width="512" height="512">
           <span>チョキ</span>
         </button>
-        <button id="paa" class="hand-button" value="2" aria-label="パーを出す">
-          <i class="fas fa-hand-paper fa-2x"></i>
+        <button type="button" class="hand-button" data-hand="paa" disabled>
+          <img src="images/paa.webp" alt="" width="512" height="512">
           <span>パー</span>
         </button>
       </div>
-    </main>
 
-    <!-- フッター：スタートボタン -->
-    <footer class="game-footer">
-      <button id="play" class="start-button" aria-label="じゃんけんを開始">
-        <i class="fas fa-play"></i>
-        <span>じゃんけんを開始</span>
+      <button type="button" class="button button-primary start-button" data-action="start">
+        <svg class="icon icon-start" aria-hidden="true"><use href="#i-play"/></svg>
+        <svg class="icon icon-again" aria-hidden="true"><use href="#i-redo"/></svg>
+        <span data-ui="start-label">じゃんけんを はじめる</span>
       </button>
-    </footer>
-    
-    <!-- オーディオ要素 -->
-    <audio id="bgm" loop>
-      <source src="sounds/bgm.mp3" type="audio/mp3">
-      お使いのブラウザはオーディオ要素をサポートしていません。
-    </audio>
-    <audio id="winSound">
-      <source src="sounds/win.mp3" type="audio/mp3">
-    </audio>
-    <audio id="loseSound">
-      <source src="sounds/lose.mp3" type="audio/mp3">
-    </audio>
-    <audio id="drawSound">
-      <source src="sounds/draw.mp3" type="audio/mp3">
-    </audio>
+    </section>
 
-    <!-- BGM制御ボタン -->
-    <button id="bgmToggle" class="bgm-toggle" aria-label="BGMを切り替え">
-      <i class="fas fa-volume-up"></i>
-    </button>
+    <!-- ===== 対戦成績 ===== -->
+    <!-- 広い画面では右側に並べ、狭い画面では下から開くパネルにする -->
+    <section id="record" class="record" data-ui="record" aria-labelledby="record-h">
+      <div class="record-header">
+        <h2 id="record-h" class="record-title">対戦成績</h2>
+        <button type="button" class="icon-button record-close" data-action="close-record" aria-label="対戦成績を閉じる">
+          <svg class="icon" aria-hidden="true"><use href="#i-close"/></svg>
+        </button>
+      </div>
 
+      <dl class="stats">
+        <div class="stat" data-result="win"><dt>勝ち</dt><dd data-ui="stat-win">0</dd></div>
+        <div class="stat" data-result="lose"><dt>負け</dt><dd data-ui="stat-lose">0</dd></div>
+        <div class="stat" data-result="draw"><dt>あいこ</dt><dd data-ui="stat-draw">0</dd></div>
+        <div class="stat"><dt>勝率</dt><dd data-ui="stat-rate">―</dd></div>
+      </dl>
+      <p class="record-summary" data-ui="summary">まだ対戦していません</p>
+
+      <h3 id="history-h" class="record-heading history-part">最近の対戦 <span class="history-count" data-ui="history-count"></span></h3>
+      <!-- 収まらない分は、この欄の中でスクロールする。キーボードでもスクロールできるよう tabindex を付ける -->
+      <ol class="history history-part" data-ui="history" tabindex="0" aria-labelledby="history-h"></ol>
+      <p class="history-empty history-part" data-ui="history-empty">対戦するとここに記録されます。</p>
+
+      <h3 class="record-heading">成績データ</h3>
+      <p class="record-note">成績はこのブラウザに自動で保存されます。別の端末へ移すときは、ファイルに書き出して、移した先で読み込みます。</p>
+      <div class="data-actions">
+        <button type="button" class="button" data-action="export" aria-label="成績をファイルに書き出す">
+          <svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>書き出す
+        </button>
+        <button type="button" class="button" data-action="import" aria-label="ファイルから成績を読み込む">
+          <svg class="icon" aria-hidden="true"><use href="#i-upload"/></svg>読み込む
+        </button>
+        <button type="button" class="button button-danger" data-action="reset" aria-label="成績をリセットする">
+          <svg class="icon" aria-hidden="true"><use href="#i-trash"/></svg>リセット
+        </button>
+        <!-- ファイル選択の画面は「読み込む」ボタンから開く -->
+        <input type="file" accept=".json,application/json" data-ui="import-file" hidden>
+      </div>
+      <p class="data-message" data-ui="data-message" role="status"></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>BGM「夏休みの探検」：<a href="https://amachamusic.chagasi.com/" target="_blank" rel="noopener noreferrer">甘茶の音楽工房</a>
+      ／ 効果音：<a href="https://soundeffect-lab.info/" target="_blank" rel="noopener noreferrer">効果音ラボ</a>（声優：音枝優日・藤堂れんげ・IC）</p>
+    <p><small>© 2022–2026 アトリヱ未來</small></p>
+  </footer>
+
+  <!-- 確認ダイアログ。method="dialog" のフォームは、押したボタンの value を returnValue に入れて閉じる -->
+  <dialog class="confirm" data-ui="confirm" aria-labelledby="confirm-h">
+    <form method="dialog">
+      <h2 id="confirm-h" class="confirm-title" data-ui="confirm-title">確認</h2>
+      <p data-ui="confirm-text"></p>
+      <div class="confirm-actions">
+        <button type="submit" class="button" value="cancel" autofocus>やめる</button>
+        <button type="submit" class="button button-danger" value="ok" data-ui="confirm-ok">実行する</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- 新しい版の通知（Service Worker が更新を見つけたときに表示） -->
+  <div class="update-bar" data-ui="update-bar" role="status" hidden>
+    <p>新しい版があります。</p>
+    <button type="button" class="button button-primary" data-action="apply-update">更新する</button>
   </div>
+
+  <!-- 音声。BGM は再生するまで読み込まない -->
+  <audio data-sound="bgm" src="sounds/bgm.mp3" preload="none" loop></audio>
+  <audio data-sound="win" src="sounds/win.mp3" preload="auto"></audio>
+  <audio data-sound="lose" src="sounds/lose.mp3" preload="auto"></audio>
+  <audio data-sound="draw" src="sounds/draw.mp3" preload="auto"></audio>
 </body>
 </html>

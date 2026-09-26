@@ -1,0 +1,169 @@
+/* ==============================
+   simple.css — シンプル版の見た目
+   ・手の画像と同じ青・黄・赤で配色
+   ・スマートフォンでも崩れないレイアウト
+   ・ホバーやフォーカスの反応
+   ============================== */
+
+/* 層（レイヤー）の順番を先に決めておく。
+   後ろの層ほど優先されるので、書く順番に気を配らずに済む。 */
+@layer reset, tokens, base, components;
+
+/* ---- リセット ---- */
+@layer reset {
+  /* :where() で囲むと詳細度が 0 になり、あとから簡単に上書きできる */
+  :where(*, *::before, *::after) { box-sizing: border-box; }
+  :where(body, h1, p, dl, dd) { margin: 0; }
+  :where(button) { font: inherit; }
+}
+
+/* ---- 色や大きさの変数 ---- */
+@layer tokens {
+  :root {
+    color-scheme: light dark;
+
+    --blue:   #70abe2;  /* グーの画像の青 */
+    --yellow: #ffdd00;  /* チョキの画像の黄 */
+    --red:    #fe4f4f;  /* パーの画像の赤 */
+    --skin:   #ffe2d3;  /* 手の肌色 */
+    --ink:    #3a3434;  /* 文字（手の輪郭線の色から） */
+    --paper:  #fdf8f4;  /* 背景 */
+    --card:   #ffffff;
+
+    --radius: 16px;
+    --shadow: 0 10px 30px -12px rgb(86 79 79 / .35);
+  }
+
+  /* OS がダークモードのときは色だけを差し替える */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink:   #f3ece8;
+      --paper: #1f1c1c;
+      --card:  #2b2727;
+    }
+  }
+}
+
+/* ---- ページ全体 ---- */
+@layer base {
+  body {
+    display: grid;
+    place-items: center;
+    min-block-size: 100dvh;  /* dvh はスマートフォンのアドレスバーの伸び縮みも考慮した高さ */
+    padding: 1rem;
+    font-family: "Hiragino Maru Gothic ProN", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
+    color: var(--ink);
+    background-color: var(--paper);
+  }
+
+  /* キーボードで操作したときのフォーカス枠をはっきり見せる */
+  :focus-visible {
+    outline: 3px solid var(--blue);
+    outline-offset: 3px;
+  }
+}
+
+/* ---- 部品 ---- */
+@layer components {
+  /* ゲームのカード */
+  .game {
+    display: grid;
+    gap: 1.5rem;
+    inline-size: min(100%, 28rem);
+    padding: clamp(1.5rem, 6vw, 2.5rem);
+    text-align: center;
+    background-color: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+
+    h1 {
+      font-size: clamp(1.5rem, 6vw, 2rem);
+      text-wrap: balance;
+    }
+  }
+
+  /* スコア表示 */
+  .score {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+
+    div {
+      padding-block: .5rem;
+      background-color: color-mix(in srgb, var(--skin) 45%, var(--card));
+      border-radius: calc(var(--radius) / 2);
+    }
+
+    dt { font-size: .9rem; }
+
+    dd {
+      font-size: 2rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;  /* 数字の幅を揃え、桁が変わっても揺れない */
+    }
+  }
+
+  /* じゃんけんの手を選ぶボタン */
+  .choices {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .choice {
+    aspect-ratio: 1;
+    font-size: clamp(2rem, 10vw, 2.75rem);
+    background-color: var(--hand-color);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: scale .15s;
+
+    /* 手ごとに、画像と同じ背景色を割り当てる */
+    &[data-choice="rock"]     { --hand-color: var(--blue); }
+    &[data-choice="scissors"] { --hand-color: var(--yellow); }
+    &[data-choice="paper"]    { --hand-color: var(--red); }
+
+    &:hover  { scale: 1.08; }
+    &:active { scale: .95; }
+  }
+
+  /* 結果の表示 */
+  .result {
+    display: grid;
+    gap: .5rem;
+    min-block-size: 5.5rem;  /* 文字が出ても下のボタンの位置が動かないよう、高さを確保する */
+  }
+
+  .result-message {
+    padding: .5rem 1rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+    border-radius: calc(var(--radius) / 2);
+
+    /* JavaScript が付けた data-winner の値で色を変える */
+    &[data-winner="player"]   { background-color: color-mix(in srgb, var(--yellow) 35%, var(--card)); }
+    &[data-winner="computer"] { background-color: color-mix(in srgb, var(--red) 25%, var(--card)); }
+    &[data-winner="draw"]     { background-color: color-mix(in srgb, var(--blue) 25%, var(--card)); }
+  }
+
+  .result-computer { font-size: 1.25rem; }
+
+  /* リセットボタン */
+  .reset {
+    justify-self: center;
+    padding: .5rem 1.5rem;
+    color: var(--ink);
+    background-color: transparent;
+    border: 2px solid currentColor;
+    border-radius: 999px;
+    cursor: pointer;
+
+    &:hover { background-color: color-mix(in srgb, var(--ink) 8%, transparent); }
+  }
+}
+
+/* 動きを減らす設定の人には、拡大・縮小のアニメーションをしない */
+@media (prefers-reduced-motion: reduce) {
+  .choice { transition: none; }
+}
